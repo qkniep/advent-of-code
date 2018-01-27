@@ -10,8 +10,11 @@ func main() {
 }
 
 func manhattanDistance(n int) (distance int) {
-	layer := math.Ceil((math.Sqrt(float64(n)) - 1) / 2)
-	upperRight := 4*layer*layer - 2*layer + 1
-	distance = int(layer + math.Abs(math.Mod(float64(n)-upperRight, 2*layer)-layer))
-	return
+	if n == 1 {
+		return 0
+	} else {
+		layer := math.Ceil((math.Sqrt(float64(n)) - 1) / 2)
+		offset := math.Abs(math.Mod(float64(n)-1, 2*layer) - layer)
+		return int(layer + offset)
+	}
 }
