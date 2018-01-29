@@ -11,8 +11,10 @@ import (
 
 func main() {
 	reachable, weights, children := readInput()
-	fmt.Printf("Root Program: %v\n", findRoot(reachable))
-	fmt.Printf("Correct Weight: %v\n", fixWrongWeight(weights, children))
+	rootNode := findRoot(reachable)
+	fmt.Printf("Root Program: %v\n", rootNode)
+	_, newWeight := fixWrongWeight(rootNode, weights, children)
+	fmt.Printf("Correct Weight: %v\n", newWeight)
 }
 
 func readInput() (reachable map[string]bool, weights map[string]int, children map[string][]string) {
@@ -30,9 +32,10 @@ func readInput() (reachable map[string]bool, weights map[string]int, children ma
 			reachable[fields[0]] = false
 		}
 		if len(fields) > 3 {
-			children[fields[0]] = fields[3:]
 			for _, dest := range fields[3:] {
-				reachable[strings.TrimRight(dest, ",")] = true
+				dest = strings.TrimRight(dest, ",")
+				reachable[dest] = true
+				children[fields[0]] = append(children[fields[0]], dest)
 			}
 		}
 	}
@@ -53,13 +56,34 @@ func findRoot(reachable map[string]bool) (root string) {
 	return
 }
 
-func fixWrongWeight(weights map[string]int, children map[string][]string) (subtreeWeight int, newWeight int) {
-	for k := range weights {
-		if len(children[k]) == 0 {
-			return weights[k], -1
-		} else {
-			return
+func fixWrongWeight(node string, weights map[string]int, children map[string][]string) (stw int, fixed int) {
+	if len(children[node]) == 0 {
+		return weights[node], -1
+	} else {
+		var childWeightSum int = 0
+		var aValue, aNum int = -1, 0
+		var foundDifferent bool = false
+		for _, child := range children[node] {
+			weight, newWeight := fixWrongWeight(child, weights, children)
+			if newWeight >= 0 {
+				return -1, newWeight
+			}
+			if aValue == -1 {
+				aValue = weight
+				aNum = 1
+			} else if weight == aValue {
+				aNum++
+			} else if !foundDifferent {
+				foundDifferent = true
+			} else {
+				return -1, weight
+			}
+			childWeightSum += weight
 		}
+		if foundDifferent {
+			fmt.Println(aValue)
+			return -1, aValue
+		}
+		return weights[node] + childWeightSum, -1
 	}
-	return
 }
