@@ -59,31 +59,30 @@ func findRoot(reachable map[string]bool) (root string) {
 func fixWrongWeight(node string, weights map[string]int, children map[string][]string) (stw int, fixed int) {
 	if len(children[node]) == 0 {
 		return weights[node], -1
-	} else {
-		var childWeightSum int = 0
-		var aValue, aNum int = -1, 0
-		var foundDifferent bool = false
-		for _, child := range children[node] {
-			weight, newWeight := fixWrongWeight(child, weights, children)
-			if newWeight >= 0 {
-				return -1, newWeight
-			}
-			if aValue == -1 {
-				aValue = weight
-				aNum = 1
-			} else if weight == aValue {
-				aNum++
-			} else if !foundDifferent {
-				foundDifferent = true
-			} else {
-				return -1, weight
-			}
-			childWeightSum += weight
-		}
-		if foundDifferent {
-			fmt.Println(aValue)
-			return -1, aValue
-		}
-		return weights[node] + childWeightSum, -1
 	}
+	var childWeightSum int = 0
+	var aValue, aWeight int = -1, -1
+	var foundDifferent bool = false
+	for _, child := range children[node] {
+		weight, newWeight := fixWrongWeight(child, weights, children)
+		if newWeight >= 0 {
+			return -1, newWeight
+		}
+		if aValue == -1 {
+			aValue = weight
+			aWeight = weights[child]
+		} else if weight != aValue {
+			if !foundDifferent {
+				foundDifferent = true
+				fixed = weights[child] + (aValue - weight)
+			} else {
+				return -1, aWeight + (weight - aValue)
+			}
+		}
+		childWeightSum += weight
+	}
+	if foundDifferent {
+		return -1, fixed
+	}
+	return weights[node] + childWeightSum, -1
 }
