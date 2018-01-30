@@ -10,13 +10,14 @@ import (
 )
 
 func main() {
-	registers := readInput()
-	fmt.Printf("Root Program: %v\n", findHighestValue(registers))
-	//fmt.Printf("Correct Weight: %v\n", newWeight)
+	registers, maxValueOccured := readInput()
+	fmt.Printf("Highest (final) Value: %v\n", findHighestValue(registers))
+	fmt.Printf("Highest Value Occured: %v\n", maxValueOccured)
 }
 
-func readInput() (registers map[string]int) {
+func readInput() (registers map[string]int, maxValueOccured int) {
 	registers = make(map[string]int)
+	maxValueOccured = -1 << 31
 
 	file, _ := os.Open("./input.txt")
 	defer file.Close()
@@ -47,6 +48,9 @@ func readInput() (registers map[string]int) {
 		}
 		if condition {
 			registers[dest] += value
+			if registers[dest] > maxValueOccured {
+				maxValueOccured = registers[dest]
+			}
 		}
 	}
 	if err := scanner.Err(); err != nil {
