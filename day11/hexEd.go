@@ -12,12 +12,12 @@ type pos struct {
 }
 
 func main() {
-	childPosition := readInput()
+	childPosition, furthestDistance := readInput()
 	fmt.Printf("Distance: %v\n", calculateDistance(childPosition))
-	//fmt.Printf("Garbaged Characters: %v\n", garbaged)
+	fmt.Printf("Furthest Distance: %v\n", furthestDistance)
 }
 
-func readInput() (p pos) {
+func readInput() (p pos, furthest int) {
 	dirs := map[string]pos{
 		"n":  pos{1, 0, -1},
 		"s":  pos{-1, 0, 1},
@@ -36,6 +36,10 @@ func readInput() (p pos) {
 			if char == ',' {
 				d := dirs[direction]
 				p.x, p.y, p.z = p.x+d.x, p.y+d.y, p.z+d.z
+				dist := calculateDistance(p)
+				if dist > furthest {
+					furthest = dist
+				}
 				direction = ""
 			} else {
 				direction += string(char)
@@ -43,6 +47,10 @@ func readInput() (p pos) {
 		}
 		d := dirs[direction]
 		p.x, p.y, p.z = p.x+d.x, p.y+d.y, p.z+d.z
+		dist := calculateDistance(p)
+		if dist > furthest {
+			furthest = dist
+		}
 	}
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
