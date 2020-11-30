@@ -9,8 +9,9 @@ func main() {
 }
 
 func sumOfPairs(s string, distance int) (n int) {
+	strLen := len(s)
 	for i, c := range s {
-		if s[i] == s[(i+distance)%len(s)] {
+		if s[i] == s[(i+distance)%strLen] {
 			n += int(c - '0')
 		}
 	}

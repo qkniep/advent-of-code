@@ -11,7 +11,7 @@ import (
 func main() {
 	graph := readInput()
 	fmt.Printf("Size of 0-Group: %v\n", sizeOfGroup("0", graph))
-	//fmt.Printf("Furthest Distance: %v\n", furthestDistance)
+	fmt.Printf("Number of Groups: %v\n", numberOfGroups(graph))
 }
 
 func readInput() (graph map[string][]string) {
@@ -48,5 +48,9 @@ func sizeOfGroup(element string, graph map[string][]string) (size int) {
 			}
 		}
 	}
+	return
+}
+
+func numberOfGroups(graph map[string][]string) (num int) {
 	return
 }

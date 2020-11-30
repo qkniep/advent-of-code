@@ -13,7 +13,6 @@ func main() {
 	passphrases := readInput()
 	fmt.Printf("Part 1: %v\n", countValid(passphrases, false))
 	fmt.Printf("Part 2: %v\n", countValid(passphrases, true))
-	//fmt.Printf("Sum of Quotients: %v\n", (spreadsheet))
 }
 
 func readInput() (pp [][]string) {
