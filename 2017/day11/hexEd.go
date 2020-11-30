@@ -19,12 +19,12 @@ func main() {
 
 func readInput() (p pos, furthest int) {
 	dirs := map[string]pos{
-		"n":  pos{1, 0, -1},
-		"s":  pos{-1, 0, 1},
-		"ne": pos{1, -1, 0},
-		"nw": pos{0, 1, -1},
-		"se": pos{0, -1, 1},
-		"sw": pos{-1, 1, 0},
+		"n":  {1, 0, -1},
+		"s":  {-1, 0, 1},
+		"ne": {1, -1, 0},
+		"nw": {0, 1, -1},
+		"se": {0, -1, 1},
+		"sw": {-1, 1, 0},
 	}
 
 	file, _ := os.Open("./input.txt")

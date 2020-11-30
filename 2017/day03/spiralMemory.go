@@ -1,9 +1,9 @@
 package main
 
-import {
+import (
 	"fmt"
 	"math"
-}
+)
 
 func main() {
 	input := 265149

@@ -51,12 +51,13 @@ func countValid(pp [][]string, anagrams bool) (num int) {
 			}
 		}
 		if !invalid {
-			num += 1
+			num++
 		}
 	}
 	return
 }
 
+// RuneSlice is a type alias for a slice of runes
 type RuneSlice []rune
 
 func (r RuneSlice) Len() int           { return len(r) }
