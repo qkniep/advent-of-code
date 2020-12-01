@@ -1,6 +1,6 @@
-[![Go Report Card](https://goreportcard.com/badge/github.com/qkniep/advent-of-code-2017)](https://goreportcard.com/report/github.com/qkniep/advent-of-code-2017)
+[![Go Report Card](https://goreportcard.com/badge/github.com/qkniep/advent-of-code)](https://goreportcard.com/report/github.com/qkniep/advent-of-code)
 [![Maintainability](https://api.codeclimate.com/v1/badges/d193677334fb5860fbbe/maintainability)](https://codeclimate.com/github/qkniep/advent-of-code/maintainability)
-[![License: MIT](https://img.shields.io/github/license/qkniep/advent-of-code-2017)](LICENSE)
+[![License: MIT](https://img.shields.io/github/license/qkniep/advent-of-code)](LICENSE)
 
 # Advent Of Code
 
