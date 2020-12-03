@@ -30,9 +30,11 @@ func main() {
 
 // returns 1 if we encounter a tree in this iteration, 0 otherwise
 func checkSlope(line string, i int, right int, down int) int {
-	if i % down != 0 {
+	if i%down != 0 {
 		return 0
-	} else if line[right*i/down % len(line)] == '#' {
+	}
+	index := right * i / down % len(line)
+	if line[index] == '#' {
 		return 1
 	}
 	return 0
