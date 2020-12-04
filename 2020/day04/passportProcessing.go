@@ -53,32 +53,29 @@ func checkPresent(fields map[string]string) bool {
 
 // Returns 1 if all fields have valid values according to their specific rules, 0 otherwise.
 func checkValid(fields map[string]string) int {
-	validHeight := false
-	var height = 0
-	_, err := fmt.Sscanf(fields["hgt"], "%din", &height)
-	if err == nil && height >= 59 && height <= 76 {
-		validHeight = true
-	}
-	_, err = fmt.Sscanf(fields["hgt"], "%dcm", &height)
-	if err == nil && height >= 150 && height <= 193 {
-		validHeight = true
-	}
-	if !validHeight {
+	// check height entry
+	var cmHeight, inHeight = 0, 0
+	_, cmErr := fmt.Sscanf(fields["hgt"], "%dcm", &cmHeight)
+	_, inErr := fmt.Sscanf(fields["hgt"], "%din", &inHeight)
+	if cmErr != nil || cmHeight < 150 || cmHeight > 193 ||
+		inErr != nil || inHeight < 59 || inHeight > 76 {
 		return 0
 	}
+	// check eye color entry
+	switch fields["ecl"] {
+	case
+		"amb", "blu", "brn", "gry", "grn", "hzl", "oth":
+		break
+	default:
+		return 0
+	}
+	// check all numeric entries
 	if !checkValidNum(fields["byr"], 4, 1920, 2002, 10) ||
 		!checkValidNum(fields["iyr"], 4, 2010, 2020, 10) ||
 		!checkValidNum(fields["eyr"], 4, 2020, 2030, 10) ||
 		fields["hcl"][0] != '#' ||
 		!checkValidNum(fields["hcl"][1:], 6, 0, 16_777_216, 16) ||
 		!checkValidNum(fields["pid"], 9, 0, 999_999_999, 10) {
-		return 0
-	}
-	switch fields["ecl"] {
-	case
-		"amb", "blu", "brn", "gry", "grn", "hzl", "oth":
-		break
-	default:
 		return 0
 	}
 	return 1
