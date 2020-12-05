@@ -8,47 +8,49 @@ import (
 )
 
 func main() {
-	max := 0
-	ids := make([]int, 0)
+	var ids = make([]int, 0)
+
+	// read input strings and convert to seat IDs
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
 		line := scanner.Text()
 		id := seatID(line)
 		ids = append(ids, id)
-		if id > max {
-			max = id
-		}
 	}
+
+	// sort ID slice and iterate over sorted to find hole
 	sort.Ints(ids)
-	previous := ids[0]
-	for _, id := range ids[1:] {
-		if id > previous + 1 {
-			break
+	myID := -1
+	for i := 0; i < len(ids); i++ {
+		if ids[i] > ids[i-1] + 1 {
+			myID = ids[i-1] + 1
 		}
-		previous = id
 	}
-	fmt.Printf("Max ID: %d\n", max)
-	fmt.Printf("My ID: %d\n", previous+1)
+
+	fmt.Printf("Max seat ID: %d\n", ids[len(ids)-1])
+	fmt.Printf("Own seat ID: %d\n", myID)
 }
 
+// Returns the seat ID (row * 8 + column) corresponding to a given partitioning string.
 func seatID(partitioning string) int {
 	rowPart := partitioning[0:7]
 	colPart := partitioning[7:10]
-	rowMin, rowMax := 0, 127
-	for _, r := range rowPart {
-		if r == 'F' {
-			rowMax = (rowMin + rowMax) / 2
-		} else if r == 'B' {
-			rowMin = (rowMin + rowMax + 1) / 2
+	row := binaryPartitioning(rowPart, 0, 127, 'F', 'B')
+	col := binaryPartitioning(colPart, 0, 7, 'L', 'R')
+	return row * 8 + col
+}
+
+// Performs binary partitioning of the interval between `min` and `max` (both included).
+// The partitioning is based on the partitioning string `s`, read from left to right,
+// on `lowRune` continues with the lower half of the interval on `highRune` with the upper half.
+// Returns the unique final number if the interval contains `2^n` numbers, where `n = len(s)`.
+func binaryPartitioning(s string, min int, max int, lowRune rune, highRune rune) int {
+	for _, r := range s {
+		if r == lowRune {
+			max = (min + max) / 2
+		} else if r == highRune {
+			min = (min + max + 1) / 2
 		}
 	}
-	colMin, colMax := 0, 7
-	for _, r := range colPart {
-		if r == 'L' {
-			colMax = (colMin + colMax) / 2
-		} else if r == 'R' {
-			colMin = (colMin + colMax + 1) / 2
-		}
-	}
-	return rowMin * 8 + colMin
+	return min
 }
