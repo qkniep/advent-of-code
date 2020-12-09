@@ -47,21 +47,21 @@ func findNonSum(nums []int, slide int) int {
 
 // Finds the first contiguous range of entries in `nums` which sum to `sum`, returning the sum of
 // the smallest and largest number in that range.
-// Runs in: O(n^2), where n=len(nums).
+// Runs in: O(n), where n=len(nums).
 func findEncWeakness(nums []int, sum int) int {
-	for i := 0; i < len(nums); i++ {
-		runningSum := nums[i]
-		for j := i+1; j < len(nums); j++ {
-			runningSum += nums[j]
-			if runningSum == sum {
-				sorted := make([]int, j-i+1)
-				copy(sorted, nums[i:j+1])
-				sort.Ints(sorted)
-				return sorted[0]+sorted[len(sorted)-1]
-			} else if runningSum > sum {
-				break
-			}
+	min, max, runningSum := 0, 0, nums[0]
+	for runningSum != sum {
+		if runningSum < sum || min == max {
+			max++
+			runningSum += nums[max]
+		}
+		if runningSum > sum {
+			runningSum -= nums[min]
+			min++
 		}
 	}
-	return -1
+	sorted := make([]int, max-min+1)
+	copy(sorted, nums[min:max+1])
+	sort.Ints(sorted)
+	return sorted[0]+sorted[len(sorted)-1]
 }
