@@ -16,6 +16,7 @@ type line struct {
 func main() {
 	var program = make([]line, 0)
 
+	// read program instructions
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
 		var words = strings.Fields(scanner.Text())
@@ -24,37 +25,19 @@ func main() {
 	}
 
 	acc, _ := emulate(program)
-	fmt.Printf("Acc value: %d\n", acc)
+	fixedAcc := fixProgram(program)
 
-	// try fixing by randomly changing nop/jmp
-	acc, term := 0, false
-	for i := 0; i < len(program); i++ {
-		// switch
-		if program[i].cmd == "nop" {
-			program[i].cmd = "jmp"
-		} else if program[i].cmd == "jmp" {
-			program[i].cmd = "nop"
-		}
-		// emulate
-		acc, term = emulate(program)
-		if term {
-			break
-		}
-		// switch back
-		if program[i].cmd == "nop" {
-			program[i].cmd = "jmp"
-		} else if program[i].cmd == "jmp" {
-			program[i].cmd = "nop"
-		}
-	}
-
-	fmt.Printf("Fixed Acc value: %d\n", acc)
+	fmt.Printf("Acc value on loop: %d\n", acc)
+	fmt.Printf("Fixed acc value: %d\n", fixedAcc)
 }
 
+// Emulates the program, keeping track of the accumulator value.
+// Returns the current accumulator value and a bool, which is true iff the emulation ended normally,
+// i.e. we tried to run the line immediately after the last line in the program.
+// The other case (returned bool is false) happens when we encounter an infinite loop.
 func emulate(program []line) (int, bool) {
 	var executed = make([]bool, len(program))
-	var instruction = 0
-	var accumulator = 0
+	var instruction, accumulator = 0, 0
 
 	for instruction < len(program) && !executed[instruction] {
 		executed[instruction] = true
@@ -69,4 +52,34 @@ func emulate(program []line) (int, bool) {
 	}
 
 	return accumulator, instruction == len(program)
+}
+
+// Try fixing the program by randomly changing nop/jmp and emulating the changed program.
+// Returns the accumulator value of the first successful run.
+// Runs O(n+j) full emulations of the program, where n/j are the number of nop/jmp instructions.
+func fixProgram(program []line) int {
+	for i := 0; i < len(program); i++ {
+		if !swapInstructions(&program[i], "nop", "jmp") {
+			continue
+		}
+		accumulator, terminatedNormally := emulate(program)
+		if terminatedNormally {
+			return accumulator
+		}
+		swapInstructions(&program[i], "nop", "jmp")
+	}
+	return -1
+}
+
+// Checks whether source is instruction of type `instA` or `instB`, if so swaps it to the other.
+// Returns true iff the instruction was swapped.
+func swapInstructions(source *line, instA string, instB string) bool {
+	if source.cmd == instA {
+		source.cmd = instB
+	} else if source.cmd == instB{
+		source.cmd = instA
+	} else {
+		return false
+	}
+	return true
 }
