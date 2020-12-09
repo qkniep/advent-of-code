@@ -28,6 +28,7 @@ func main() {
 // Finds the first entry in `nums` which is not the sum of any two of the `slide` entries
 // immediately before it, ignoring the `slide` first entries.
 // Runs in: O(n*(slide^2)), where n=len(nums).
+// Theoretical runtime could probably be improved to O(n*log(slide)) through BST.
 func findNonSum(nums []int, slide int) int {
 	for i := slide; i < len(nums); i++ {
 		sumOfTwo := false
