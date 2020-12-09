@@ -21,8 +21,8 @@ func main() {
 	nonSum := findNonSum(nums, 25)
 	encWeakness := findEncWeakness(nums, nonSum)
 
-	fmt.Printf("Acc value: %d\n", nonSum)
-	fmt.Printf("Fixed Acc value: %d\n", encWeakness)
+	fmt.Printf("First non 2/25 sum: %d\n", nonSum)
+	fmt.Printf("Encryption weakness: %d\n", encWeakness)
 }
 
 // Finds the first entry in `nums` which is not the sum of any two of the `slide` entries
