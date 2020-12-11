@@ -41,51 +41,17 @@ func countDiffs(nums []int) (int, int) {
 	return diff1, diff3
 }
 
-// Runs in: O(n^2), where n=len(nums).
+// Runs in: O(n) with O(1) space, where n=len(nums).
 func countArrangements(nums []int) int {
-	var vals = []int{1}
+	var vals = []int{1,1,1}
 	for i := 1; i < len(nums); i++ {
 		inner := 0
-		for j := 0; j < i; j++ {
-			if nums[i] <= nums[j] + 3 {
-				inner += vals[j]
+		for j := i-3; j < i; j++ {
+			if j >= 0 && nums[i] <= nums[j] + 3 {
+				inner += vals[j%3]
 			}
 		}
-		vals = append(vals, inner)
+		vals[i%3] = inner
 	}
-	return vals[len(vals)-1]
+	return vals[(len(nums)-1)%3]
 }
-
-// TODO: make this work
-// Runs in: O(n), where n=len(nums).
-func countArrangements2(nums []int) int {
-	var outerArr, innerArr, segmentLen = 1, 0, 1
-	var onesMode = false
-	for i := 1; i < len(nums); i++ {
-		if nums[i] == nums[i-1] + 3 {
-			if segmentLen > 2 {
-				innerArr += 2 * (segmentLen-2)
-			} else if segmentLen == 2 || !onesMode {
-				innerArr++
-			}
-			outerArr *= innerArr
-			segmentLen, innerArr, onesMode = 1, 0, false
-		} else if nums[i] == nums[i-1] + 2 {
-			if segmentLen > 2 {
-				innerArr += 2 * (segmentLen-2)
-			} else if segmentLen == 2 || !onesMode {
-				innerArr++
-			}
-			onesMode = (segmentLen == 1)
-			innerArr++ // +1 for the 2-width gap
-			segmentLen = 1
-		} else {
-			segmentLen++
-		}
-	}
-	return outerArr
-}
-
-// 0,1,2,4,5,7,8,9,12
-// [1]
-// [1,1]
