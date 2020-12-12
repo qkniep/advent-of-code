@@ -15,19 +15,22 @@ func main() {
 		row := []byte(scanner.Text())
 		seatLayout = append(seatLayout, row)
 	}
-
 	seatLayout2 := make([][]byte, len(seatLayout))
 	deepCopy(seatLayout2, seatLayout)
 
-	occupied := simulateSeating(seatLayout)
-	occupied2 := simulateSeating2(seatLayout2)
+	occupiedNxt := simulateSeating(seatLayout, 4, false)
+	occupiedVis := simulateSeating(seatLayout2, 5, true)
 
-	fmt.Printf("Occupied seats: %d\n", occupied)
-	fmt.Printf("Occupied visible: %d\n", occupied2)
+	fmt.Printf("Occupied seats (next to): %d\n", occupiedNxt)
+	fmt.Printf("Occupied seats (visible): %d\n", occupiedVis)
 }
 
-func simulateSeating(seats [][]byte) int {
-	var occupied, dirty = 0, true
+// Simulates the seating process until equilibrium is reached, i.e. no more changes happen.
+// `occupiedThreshold`: Number of seats that need to be occupied for a seat to become empty.
+// `byVisibility`: If true, check for visible occupied seats, otherwise check surrounding seats.
+// Returns the final number of occupied seats.
+func simulateSeating(seats [][]byte, occupiedThreshold int, byVisibility bool) int {
+	var occupied, occupiedNextTo, dirty = 0, 0, true
 	var newSeats = make([][]byte, len(seats))
 	deepCopy(newSeats, seats)
 
@@ -35,12 +38,17 @@ func simulateSeating(seats [][]byte) int {
 		dirty = false
 		for y := 0; y < len(seats); y++ {
 			for x := 0; x < len(seats[0]); x++ {
-				occupiedNextTo := countOccupiedNextTo(seats, x, y)
+				if byVisibility {
+					occupiedNextTo = countOccupiedVisible(seats, x, y)
+				} else {
+					occupiedNextTo = countOccupiedNextTo(seats, x, y)
+				}
+
 				if occupiedNextTo == 0 && seats[y][x] == byte('L') {
 					newSeats[y][x] = byte('#')
 					occupied++
 					dirty = true
-				} else if occupiedNextTo >= 4 && seats[y][x] == '#' {
+				} else if occupiedNextTo >= occupiedThreshold && seats[y][x] == '#' {
 					newSeats[y][x] = byte('L')
 					occupied--
 					dirty = true
@@ -49,35 +57,11 @@ func simulateSeating(seats [][]byte) int {
 		}
 		deepCopy(seats, newSeats)
 	}
+
 	return occupied
 }
 
-func simulateSeating2(seats [][]byte) int {
-	var occupied, dirty = 0, true
-	var newSeats = make([][]byte, len(seats))
-	deepCopy(newSeats, seats)
-
-	for dirty {
-		dirty = false
-		for y := 0; y < len(seats); y++ {
-			for x := 0; x < len(seats[0]); x++ {
-				occupiedNextTo := countOccupiedVisible(seats, x, y)
-				if occupiedNextTo == 0 && seats[y][x] == byte('L') {
-					newSeats[y][x] = byte('#')
-					occupied++
-					dirty = true
-				} else if occupiedNextTo >= 5 && seats[y][x] == '#' {
-					newSeats[y][x] = byte('L')
-					occupied--
-					dirty = true
-				}
-			}
-		}
-		deepCopy(seats, newSeats)
-	}
-	return occupied
-}
-
+// Counts the number of occupied seats directly next to (x,y), on any of the 8 possible spots.
 func countOccupiedNextTo(seats [][]byte, x int, y int) int {
 	var occupied = 0
 	for dy := -1; dy <= 1; dy++ {
@@ -93,6 +77,7 @@ func countOccupiedNextTo(seats [][]byte, x int, y int) int {
 	return occupied
 }
 
+// Counts the number of occupied seats visible from (x,y) by following lines in all 8 directions.
 func countOccupiedVisible(seats [][]byte, x int, y int) int {
 	var occupied = 0
 	for dy := -1; dy <= 1; dy++ {
@@ -115,6 +100,8 @@ func countOccupiedVisible(seats [][]byte, x int, y int) int {
 	return occupied
 }
 
+// Perform a deep copy of the 2D slice in src into the 2D slice dst.
+// Assumes that dst has been initialized to have the same length as src, inner slices can be empty.
 func deepCopy(dst [][]byte, src [][]byte) {
 	for i := range src {
 		dst[i] = make([]byte, len(src[i]))
