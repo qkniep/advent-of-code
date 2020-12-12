@@ -6,95 +6,67 @@ import (
 	"os"
 )
 
-const (
-	east = iota
-	south
-	west
-	north
-)
-
-type instruction struct {
+type action struct {
 	cmd rune
 	val int
 }
 
 func main() {
-	var instructions = make([]instruction, 0)
+	var actions = make([]action, 0)
 
-	// read the seat layout line by line (row by row)
+	// read the instructions as cmd, val pairs
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
 		cmd, val := 'X', 0
 		fmt.Sscanf(scanner.Text(), "%c%d", &cmd, &val)
-		instructions = append(instructions, instruction{cmd, val})
+		actions = append(actions, action{cmd, val})
 	}
 
-	x, y := performInstructions(instructions)
+	x, y := performActions(actions, false)
 	noWaypoint := abs(x) + abs(y)
-
-	x, y = performInstructions2(instructions)
+	x, y = performActions(actions, true)
 	withWaypoint := abs(x) + abs(y)
 
-	fmt.Printf("Manhattan distance: %d\n", noWaypoint)
-	fmt.Printf("Manhattan distance: %d\n", withWaypoint)
+	fmt.Printf("No waypoint: %d\n", noWaypoint)
+	fmt.Printf("With waypoint: %d\n", withWaypoint)
 }
 
-func performInstructions(inst []instruction) (int, int) {
-	var direction, xPos, yPos = east, 0, 0
-	var dx = [4]int{1, 0, -1, 0}
-	var dy = [4]int{0, -1, 0, 1}
+// Performs all `actions`, the meaning of these depend on whether `useWaypoint` is set.
+// Returns the final x,y coordinates of the ship.
+func performActions(actions []action, useWaypoint bool) (int, int) {
+	var shipX, shipY, waypX, waypY = 0, 0, 1, 0
+	var cardX, cardY = &shipX, &shipY
 
-	for _, i := range inst {
-		switch i.cmd {
-		case 'L':
-			direction = mod(direction - i.val / 90, 4)
-		case 'R':
-			direction = mod(direction + i.val / 90, 4)
-		case 'F':
-			xPos += i.val * dx[direction]
-			yPos += i.val * dy[direction]
-		case 'E':
-			xPos += i.val
-		case 'S':
-			yPos -= i.val
-		case 'W':
-			xPos -= i.val
-		case 'N':
-			yPos += i.val
-		}
+	if useWaypoint {
+		waypX, waypY = 10, 1
+		cardX, cardY = &waypX, &waypY
 	}
 
-	return xPos, yPos
-}
-
-func performInstructions2(inst []instruction) (int, int) {
-	var shipX, shipY, waypX, waypY = 0, 0, 10, 1
-
-	for _, i := range inst {
-		switch i.cmd {
+	for _, act := range actions {
+		switch act.cmd {
 		case 'L':
-			for s := 0; s < i.val / 90; s++ {
+			for s := 0; s < act.val / 90; s++ {
 				oldX := waypX
 				waypX = -waypY
 				waypY = oldX
 			}
 		case 'R':
-			for s := 0; s < i.val / 90; s++ {
+			for s := 0; s < act.val / 90; s++ {
 				oldY := waypY
 				waypY = -waypX
 				waypX = oldY
 			}
 		case 'F':
-			shipX += i.val * waypX
-			shipY += i.val * waypY
+			shipX += act.val * waypX
+			shipY += act.val * waypY
 		case 'E':
-			waypX += i.val
+			*cardX += act.val
 		case 'S':
-			waypY -= i.val
+			*cardY -= act.val
 		case 'W':
-			waypX -= i.val
+			*cardX -= act.val
 		case 'N':
-			waypY += i.val
+			*cardY += act.val
 		}
 	}
 
@@ -106,8 +78,4 @@ func abs(n int) int {
 		return -n
 	}
 	return n
-}
-
-func mod(a, b int) int {
-    return (a % b + b) % b
 }
