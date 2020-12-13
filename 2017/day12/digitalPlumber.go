@@ -3,23 +3,15 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"log"
 	"os"
 	"strings"
 )
 
 func main() {
-	graph := readInput()
-	fmt.Printf("Size of 0-Group: %v\n", sizeOfGroup("0", graph))
-	fmt.Printf("Number of Groups: %v\n", numberOfGroups(graph))
-}
+	var graph = make(map[string][]string, 0)
 
-func readInput() (graph map[string][]string) {
-	graph = make(map[string][]string, 0)
-
-	file, _ := os.Open("./input.txt")
-	defer file.Close()
-	scanner := bufio.NewScanner(file)
+	// interpret input as adjacency list for an undirected graph
+	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
 		fields := strings.Fields(scanner.Text())
 		source := fields[0]
@@ -28,15 +20,17 @@ func readInput() (graph map[string][]string) {
 			graph[source] = append(graph[source], strings.TrimRight(d, ","))
 		}
 	}
-	if err := scanner.Err(); err != nil {
-		log.Fatal(err)
-	}
-	return
+
+	fmt.Printf("Size of 0-group: %v\n", sizeOfGroup("0", graph, make(map[string]bool, 0)))
+	fmt.Printf("Number of groups: %v\n", numberOfGroups(graph))
 }
 
-func sizeOfGroup(element string, graph map[string][]string) (size int) {
-	visited := make(map[string]bool, 0)
-	toVisit := []string{element}
+// Explore the group (connected component) containing element, using the graph adjacency list.
+// All visited nodes are marked with true in visited slice.
+// Returns the size of the group.
+func sizeOfGroup(element string, graph map[string][]string, visited map[string]bool) (size int) {
+	var toVisit = []string{element}
+
 	for len(toVisit) > 0 {
 		size++
 		neighbors := graph[toVisit[0]]
@@ -51,6 +45,15 @@ func sizeOfGroup(element string, graph map[string][]string) (size int) {
 	return
 }
 
+// Find out how many groups (connected components) there are in the graph.
 func numberOfGroups(graph map[string][]string) (num int) {
+	var visited = make(map[string]bool, 0)
+
+	for k := range graph {
+		if !visited[k] {
+			sizeOfGroup(k, graph, visited)
+			num++
+		}
+	}
 	return
 }
