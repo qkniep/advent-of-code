@@ -45,13 +45,13 @@ func performActions(actions []action, useWaypoint bool) (int, int) {
 	for _, act := range actions {
 		switch act.cmd {
 		case 'L':
-			for s := 0; s < act.val / 90; s++ {
+			for s := 0; s < act.val/90; s++ {
 				oldX := waypX
 				waypX = -waypY
 				waypY = oldX
 			}
 		case 'R':
-			for s := 0; s < act.val / 90; s++ {
+			for s := 0; s < act.val/90; s++ {
 				oldY := waypY
 				waypY = -waypX
 				waypX = oldY

@@ -30,7 +30,7 @@ func findMinDelay(depths []int, ranges []int) int {
 	for delay := 1; ; delay++ {
 		gotCaught := false
 		for i, d := range depths {
-			if caught(d + delay, ranges[i]) {
+			if caught(d+delay, ranges[i]) {
 				gotCaught = true
 				break
 			}
@@ -43,7 +43,7 @@ func findMinDelay(depths []int, ranges []int) int {
 
 // Checks whether we are caught if we reach a layer of range `rng` at some time.
 func caught(time int, rng int) bool {
-	m := rng * 2 - 2
+	m := rng*2 - 2
 	dm := time % m
 	return dm == 0
 }

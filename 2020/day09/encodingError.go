@@ -34,7 +34,7 @@ func findNonSum(nums []int, slide int) int {
 		sumOfTwo := false
 		for a := 1; a < slide; a++ {
 			for b := 0; b < a; b++ {
-				if nums[i+a] + nums[i+b] == nums[i+slide] {
+				if nums[i+a]+nums[i+b] == nums[i+slide] {
 					sumOfTwo = true
 				}
 			}
@@ -64,5 +64,5 @@ func findEncWeakness(nums []int, sum int) int {
 	sorted := make([]int, max-min+1)
 	copy(sorted, nums[min:max+1])
 	sort.Ints(sorted)
-	return sorted[0]+sorted[len(sorted)-1]
+	return sorted[0] + sorted[len(sorted)-1]
 }

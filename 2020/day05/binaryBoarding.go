@@ -22,7 +22,7 @@ func main() {
 	sort.Ints(ids)
 	myID := -1
 	for i := 0; i < len(ids); i++ {
-		if ids[i] > ids[i-1] + 1 {
+		if ids[i] > ids[i-1]+1 {
 			myID = ids[i-1] + 1
 		}
 	}
@@ -37,7 +37,7 @@ func seatID(partitioning string) int {
 	colPart := partitioning[7:10]
 	row := binaryPartitioning(rowPart, 0, 127, 'F', 'B')
 	col := binaryPartitioning(colPart, 0, 7, 'L', 'R')
-	return row * 8 + col
+	return row*8 + col
 }
 
 // Performs binary partitioning of the interval between `min` and `max` (both included).

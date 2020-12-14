@@ -35,7 +35,7 @@ func main() {
 		}
 	}
 
-	fmt.Printf("Next bus ID * wait offset: %v\n", busID * (minDeparture-earliestPossibleDeparture))
+	fmt.Printf("Next bus ID * wait offset: %v\n", busID*(minDeparture-earliestPossibleDeparture))
 	fmt.Printf("First timestamp with ordered offsets: %v\n", findFirstInOrderTime(schedule))
 }
 

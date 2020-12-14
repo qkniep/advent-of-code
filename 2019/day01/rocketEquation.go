@@ -23,7 +23,7 @@ func main() {
 }
 
 func fuelRequirement(mass int) int {
-	return mass / 3 - 2
+	return mass/3 - 2
 }
 
 // Calculates the amount of fuel needed for the base mass and all the fuel.

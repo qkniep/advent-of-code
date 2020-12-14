@@ -21,7 +21,7 @@ func main() {
 	for scanner.Scan() {
 		var words = strings.Fields(scanner.Text())
 		num, _ := strconv.Atoi(words[1])
-		program = append(program, line{ cmd: words[0], arg: num})
+		program = append(program, line{cmd: words[0], arg: num})
 	}
 
 	acc, _ := emulate(program)
@@ -76,7 +76,7 @@ func fixProgram(program []line) int {
 func swapInstructions(source *line, instA string, instB string) bool {
 	if source.cmd == instA {
 		source.cmd = instB
-	} else if source.cmd == instB{
+	} else if source.cmd == instB {
 		source.cmd = instA
 	} else {
 		return false

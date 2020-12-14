@@ -30,10 +30,10 @@ func main() {
 
 func applyBitmask(value int, mask string) int {
 	for i, b := range mask {
-		singleBitMask := 1 << (35-i)
+		singleBitMask := 1 << (35 - i)
 		if b == '0' {
 			value &= ^singleBitMask
-		} else if b =='1' {
+		} else if b == '1' {
 			value |= singleBitMask
 		}
 	}
@@ -43,7 +43,7 @@ func applyBitmask(value int, mask string) int {
 func findAddressesFromBitmask(addr *int, mask string) []int {
 	var floating []int
 	for i, b := range mask {
-		singleBitMask := 1 << (35-i)
+		singleBitMask := 1 << (35 - i)
 		if b == '1' {
 			*addr |= singleBitMask
 		} else if b == 'X' {
@@ -53,11 +53,11 @@ func findAddressesFromBitmask(addr *int, mask string) []int {
 
 	var addresses = []int{*addr}
 	for _, bitPos := range floating {
-		singleBitMask := 1 << (35-bitPos)
+		singleBitMask := 1 << (35 - bitPos)
 		numOldAddr := len(addresses)
 		for _, a := range addresses {
-			addresses = append(addresses, a | singleBitMask)
-			addresses = append(addresses, a & (^singleBitMask))
+			addresses = append(addresses, a|singleBitMask)
+			addresses = append(addresses, a&(^singleBitMask))
 		}
 		addresses = addresses[numOldAddr:]
 	}

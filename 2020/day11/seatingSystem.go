@@ -30,7 +30,8 @@ func main() {
 // `byVisibility`: If true, check for visible occupied seats, otherwise check surrounding seats.
 // Returns the final number of occupied seats.
 func simulateSeating(seats [][]byte, occupiedThreshold int, byVisibility bool) int {
-	var occupied, occupiedNextTo, dirty = 0, 0, true
+	var occupied, occupiedNextTo int
+	var dirty = true
 	var newSeats = make([][]byte, len(seats))
 	deepCopy(newSeats, seats)
 
@@ -67,7 +68,7 @@ func countOccupiedNextTo(seats [][]byte, x int, y int) int {
 	for dy := -1; dy <= 1; dy++ {
 		for dx := -1; dx <= 1; dx++ {
 			if (dx == 0 && dy == 0) || y+dy < 0 || x+dx < 0 ||
-					y+dy >= len(seats) || x+dx >= len(seats[0]) {
+				y+dy >= len(seats) || x+dx >= len(seats[0]) {
 				continue
 			} else if seats[y+dy][x+dx] == '#' {
 				occupied++
@@ -82,10 +83,10 @@ func countOccupiedVisible(seats [][]byte, x int, y int) int {
 	var occupied = 0
 	for dy := -1; dy <= 1; dy++ {
 		for dx := -1; dx <= 1; dx++ {
-			if (dx == 0 && dy == 0) {
+			if dx == 0 && dy == 0 {
 				continue
 			}
-			for s := 1;; s++ {
+			for s := 1; ; s++ {
 				if y+dy*s < 0 || x+dx*s < 0 || y+dy*s >= len(seats) || x+dx*s >= len(seats[0]) {
 					break
 				} else if seats[y+dy*s][x+dx*s] == '#' {
