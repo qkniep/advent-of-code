@@ -10,8 +10,6 @@ import (
 
 func main() {
 	var startingNums = make([]int, 0)
-	var turnSpoken = make(map[int]int, 0)
-	var lastSpoken, turnsApart int
 
 	reader := bufio.NewReader(os.Stdin)
 	line, _ := reader.ReadString('\n')
@@ -20,7 +18,15 @@ func main() {
 		startingNums = append(startingNums, num)
 	}
 
-	for turn := 1; turn <= 30000000; turn++ {
+	fmt.Printf("2020th spoken number: %v\n", findNthSpoken(startingNums, 2020))
+	fmt.Printf("30000000th spoken number: %v\n", findNthSpoken(startingNums, 30000000))
+}
+
+func findNthSpoken(startingNums []int, n int) int {
+	var turnSpoken = make(map[int]int, 0)
+	var lastSpoken, turnsApart int
+
+	for turn := 1; turn <= n; turn++ {
 		if turn <= len(startingNums) {
 			lastSpoken = startingNums[turn-1]
 		} else {
@@ -34,6 +40,5 @@ func main() {
 		turnSpoken[lastSpoken] = turn
 	}
 
-	fmt.Printf("2020th spoken number: %v\n", lastSpoken)
-	//fmt.Printf("Version 2 decoder chip: %v\n", sumOfValues(memory2))
+	return lastSpoken
 }
