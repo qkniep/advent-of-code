@@ -25,51 +25,64 @@ func main() {
 		card, _ := strconv.Atoi(scanner.Text())
 		deck2 = append(deck2, card)
 	}
-	fmt.Printf("%v -- %v\n", deck1, deck2)
 
 	// play recursive combat
-	_, recScore := recursiveCombat(deck1, deck2)
+	_, recScore := recursiveCombat(deck1, deck2, len(deck1), len(deck2))
 
 	// play normal combat
+	var winner int
 	for len(deck1) > 0 && len(deck2) > 0 {
 		card1, card2 := deck1[0], deck2[0]
 		deck1, deck2 = deck1[1:], deck2[1:]
 		if card1 > card2 { // player 1 wins
 			deck1 = append(deck1, card1, card2)
+			winner = 1
 		} else { // player 2 wins
 			deck2 = append(deck2, card2, card1)
+			winner = 2
 		}
 	}
 
-	_, score := determineWinnerScore(deck1, deck2)
-	fmt.Printf("%v\n", score)
+	fmt.Printf("%v\n", determineWinnerScore(winner, deck1, deck2))
 	fmt.Printf("%v\n", recScore)
 }
 
-func recursiveCombat(deck1 []int, deck2 []int) (winner int, score int) {
+func recursiveCombat(deckPlayer1 []int, deckPlayer2 []int, cards1 int, cards2 int) (winner int, score int) {
+	var alreadyPlayed = make(map[string]bool, 0)
+
 	// copy decks
+	deck1, deck2 := make([]int, cards1), make([]int, cards2)
+	copy(deck1, deckPlayer1[:cards1])
+	copy(deck2, deckPlayer2[:cards2])
+
 	for len(deck1) > 0 && len(deck2) > 0 {
-		// TODO: player 1 wins if the decks were already played this game
+		winner = 1
+		if alreadyPlayed[fmt.Sprintf("%v", deck1)] {
+			break
+		}
+		alreadyPlayed[fmt.Sprintf("%v", deck1)] = true
 		card1, card2 := deck1[0], deck2[0]
 		deck1, deck2 = deck1[1:], deck2[1:]
-		roundWinner := 1
 		if card1 <= len(deck1) && card2 <= len(deck2) {
-			roundWinner, _ = recursiveCombat(deck1, deck2)
+			winner, _ = recursiveCombat(deck1, deck2, card1, card2)
 		} else if card2 > card1 {
-			roundWinner = 2
+			winner = 2
 		}
-		if roundWinner == 1 { // player 1 wins
+		// give cards to winner
+		if winner == 1 {
 			deck1 = append(deck1, card1, card2)
-		} else { // player 2 wins
+		} else {
 			deck2 = append(deck2, card2, card1)
 		}
 	}
-	return determineWinnerScore(deck1, deck2)
+
+	score = determineWinnerScore(winner, deck1, deck2)
+	return
 }
 
-func determineWinnerScore(deck1 []int, deck2 []int) (winner int, score int) {
+func determineWinnerScore(winner int, deck1 []int, deck2 []int) (score int) {
 	var winnerDeck = deck1
-	if len(deck1) == 0 {
+	if winner == 2 {
 		winnerDeck = deck2
 	}
 
