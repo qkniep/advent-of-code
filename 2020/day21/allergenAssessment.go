@@ -14,6 +14,7 @@ func main() {
 
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
+		// read food line (list of ingredients, followed by list of allergens)
 		var allergens []string = nil
 		ingredients := strings.Fields(scanner.Text())
 		for i, ingr := range ingredients {
@@ -24,12 +25,13 @@ func main() {
 			}
 			countIngredient[ingr]++
 		}
+
 		for i, allergen := range allergens {
 			allergens[i] = allergen[:len(allergen)-1]
 			countAllergen[allergens[i]]++
 			if countAllergen[allergens[i]] == 1 {
 				possibleForAllergen[allergens[i]] = ingredients
-				break
+				continue
 			}
 			// intersection
 			newPossible := make([]string, 0)
@@ -49,20 +51,36 @@ func main() {
 		}
 	}
 
-	var totalOccurrences = 0
-	for ingr, num := range countIngredient {
-		defNoAllergen := true
+	// eliminate ingredients known to belong to one allergen from the others
+	known := make(map[string]bool, 0)
+	for len(known) < len(possibleForAllergen) {
 		for i := range possibleForAllergen {
-			for _, ingr0 := range possibleForAllergen[i] {
-				if ingr0 == ingr {
-					defNoAllergen = false
+			count, value := 0, ""
+			for _, ingr := range possibleForAllergen[i] {
+				if !known[ingr] {
+					count++
+					value = ingr
 				}
 			}
+			if count == 1 {
+				possibleForAllergen[i] = []string{value}
+				known[value] = true
+			}
 		}
-		if defNoAllergen {
+	}
+
+	var totalOccurrences = 0
+	for ingr, num := range countIngredient {
+		if !known[ingr] {
 			totalOccurrences += num
 		}
 	}
 
+	dangerousIngredients := make([]string, 0)
+	for ingr := range known {
+		dangerousIngredients = append(dangerousIngredients, ingr)
+	}
+
 	fmt.Printf("%v\n", totalOccurrences)
+	fmt.Printf("%v\n", strings.Join(dangerousIngredients, ","))
 }
