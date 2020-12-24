@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 	"strings"
 )
 
@@ -11,6 +12,7 @@ func main() {
 	var countIngredient = make(map[string]int, 0)
 	var countAllergen = make(map[string]int, 0)
 	var possibleForAllergen = make(map[string][]string, 0)
+	var allAllergens = make([]string, 0)
 
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
@@ -29,7 +31,8 @@ func main() {
 		for i, allergen := range allergens {
 			allergens[i] = allergen[:len(allergen)-1]
 			countAllergen[allergens[i]]++
-			if countAllergen[allergens[i]] == 1 {
+			if countAllergen[allergens[i]] == 1 { // first time this allergen appears
+				allAllergens = append(allAllergens, allergens[i])
 				possibleForAllergen[allergens[i]] = ingredients
 				continue
 			}
@@ -77,8 +80,9 @@ func main() {
 	}
 
 	dangerousIngredients := make([]string, 0)
-	for ingr := range known {
-		dangerousIngredients = append(dangerousIngredients, ingr)
+	sort.Strings(allAllergens)
+	for _, allergen := range allAllergens {
+		dangerousIngredients = append(dangerousIngredients, possibleForAllergen[allergen][0])
 	}
 
 	fmt.Printf("%v\n", totalOccurrences)
