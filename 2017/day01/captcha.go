@@ -8,10 +8,11 @@ func main() {
 	fmt.Printf("Sum 2: %v\n", sumOfPairs(input, len(input)/2))
 }
 
+// Checks each for char in `s` whether the char `distance` steps right from it in the string is equal.
+// Returns the sum of all character values where the check was successful.
 func sumOfPairs(s string, distance int) (n int) {
-	strLen := len(s)
 	for i, c := range s {
-		if s[i] == s[(i+distance)%strLen] {
+		if s[i] == s[(i+distance)%len(s)] {
 			n += int(c - '0')
 		}
 	}
