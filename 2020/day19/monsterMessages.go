@@ -67,7 +67,7 @@ func matchRule(s string, rules map[int]string, rule int, from int) []int {
 	// check base rules (match a single character)
 	if rules[rule] == " \"a\"" || rules[rule] == " \"b\"" {
 		if s[from] == rules[rule][2] {
-			return []int{from+1}
+			return []int{from + 1}
 		}
 		return []int{}
 	}

@@ -12,7 +12,7 @@ func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 	scanner.Scan()
 	nineCups = make([]int, len(scanner.Bytes())+1)
-	previous, first := int(scanner.Bytes()[0] - '0'), int(scanner.Bytes()[0] - '0')
+	previous, first := int(scanner.Bytes()[0]-'0'), int(scanner.Bytes()[0]-'0')
 	for _, cup := range scanner.Bytes()[1:] {
 		nineCups[previous] = int(cup - '0')
 		previous = int(cup - '0')
@@ -62,12 +62,12 @@ func runCrabGame(cups []int, rounds int, startCup int) {
 		// determine destination cup label
 		destination := current - 1
 		if destination == 0 {
-			destination = len(cups)-1
+			destination = len(cups) - 1
 		}
 		for destination == pickedUp[0] || destination == pickedUp[1] || destination == pickedUp[2] {
 			destination--
 			if destination == 0 {
-				destination = len(cups)-1
+				destination = len(cups) - 1
 			}
 		}
 

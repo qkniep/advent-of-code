@@ -13,12 +13,12 @@ type operator struct {
 	rAssoc bool
 }
 
-var ops1 = map[string]operator {
+var ops1 = map[string]operator{
 	"*": {1, false},
 	"+": {1, false},
 }
 
-var ops2 = map[string]operator {
+var ops2 = map[string]operator{
 	"*": {1, false},
 	"+": {2, false},
 }
@@ -54,7 +54,7 @@ func shuntingYard(tokens []string, ops map[string]operator) (output []string) {
 				if op == "(" {
 					break // discard "("
 				}
-				output = append(output,  op)
+				output = append(output, op)
 			}
 		default:
 			if o1, isOp := ops[t]; isOp { // token is an operator
@@ -77,7 +77,7 @@ func shuntingYard(tokens []string, ops map[string]operator) (output []string) {
 		}
 	}
 
-	for i := len(stack)-1; i >= 0; i-- {
+	for i := len(stack) - 1; i >= 0; i-- {
 		output = append(output, stack[i])
 	}
 	return
