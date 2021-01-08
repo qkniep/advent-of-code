@@ -14,7 +14,7 @@ func main() {
 
 	reader := bufio.NewReader(os.Stdin)
 	input, _ := reader.ReadString('\n')
-	// interpret input as comma seperated numbers
+	// interpret input as comma separated numbers
 	for _, n := range strings.Split(input, ",") {
 		i, _ := strconv.Atoi(n)
 		intLengths = append(intLengths, i)
