@@ -4,8 +4,8 @@
 
 # Advent Of Code
 
-## 2020
-I will use this year's Advent of Code to refresh my knowledge of the Go programming language.
+## 2020 (50⭐)
+I used the 2020 Advent of Code to refresh my knowledge of the Go programming language.
 
 ## 2017
 I used the 2017 Advent of Code to learn the Go programming language.
