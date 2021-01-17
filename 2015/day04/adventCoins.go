@@ -9,10 +9,6 @@ import (
 	"strconv"
 )
 
-type pos struct {
-	x, y int
-}
-
 func main() {
 	var collision5, collision6 = 0, 0
 
@@ -39,16 +35,4 @@ func main() {
 
 	fmt.Printf("First 5 digit collision: %v\n", collision5)
 	fmt.Printf("First 6 digit collision: %v\n", collision6)
-}
-
-func applyChange(p *pos, dir rune) {
-	if dir == '<' {
-		p.x--
-	} else if dir == '>' {
-		p.x++
-	} else if dir == '^' {
-		p.y++
-	} else if dir == 'v' {
-		p.y--
-	}
 }
