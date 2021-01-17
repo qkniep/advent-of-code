@@ -12,7 +12,7 @@ func main() {
 	var wrappingPaper int
 	var ribbon int
 
-	// read the instructions, keeping track of current floor
+	// read the measures and calculate necessary amounts of wrapping paper and ribbon
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
 		measures := strings.Split(scanner.Text(), "x")
