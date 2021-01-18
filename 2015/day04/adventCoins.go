@@ -16,7 +16,7 @@ func main() {
 	scanner.Scan()
 
 	fmt.Println("Mining AdventCoins...")
-	for nonce := 0; collision5 == 0 || collision6 == 0; nonce++ {
+	for nonce := 1; collision5 == 0 || collision6 == 0; nonce++ {
 		hash := md5.Sum([]byte("bgvyzdsv" + strconv.Itoa(nonce)))
 		leadingZeros := 0
 		for _, h := range hex.EncodeToString(hash[:]) {
@@ -33,6 +33,6 @@ func main() {
 		}
 	}
 
-	fmt.Printf("First 5 digit collision: %v\n", collision5)
-	fmt.Printf("First 6 digit collision: %v\n", collision6)
+	fmt.Printf("First nonce giving 5 leading zeros: %v\n", collision5)
+	fmt.Printf("First nonce giving 6 leading zeros: %v\n", collision6)
 }
