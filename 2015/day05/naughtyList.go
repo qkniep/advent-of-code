@@ -38,10 +38,11 @@ func main() {
 				repetition = true
 			}
 			pairStr := string(lastLetter) + string(r)
-			if pairs[pairStr] > 0 && pairs[pairStr] < i-1 {
+			if pairs[pairStr] == 0 {
+				pairs[pairStr] = i
+			} else if pairs[pairStr] < i-1 {
 				pair = true
 			}
-			pairs[pairStr] = i
 
 			secondLastLetter = lastLetter
 			lastLetter = r
