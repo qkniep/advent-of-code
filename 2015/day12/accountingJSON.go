@@ -2,62 +2,54 @@ package main
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
 	"os"
 )
 
 func main() {
-	var sumTotal, sumNoRed, level, number, levelRunningCount int
-	var lastChar rune
-	var currentlyIgnoring, readingColor bool
-	var color string
-
 	scanner := bufio.NewScanner(os.Stdin)
 	scanner.Scan()
 
-	for _, r := range scanner.Text() {
-		if r == '"' && lastChar == ':' {
-			readingColor = true
-		} else if r == '"' {
-			if color == "red" {
-				level = 0
-				currentlyIgnoring = true
-			}
-			readingColor = false
-			color = ""
-		} else if readingColor {
-			color += string(r)
-		} else if r >= '0' && r <= '9' {
-			number *= 10
-			if number < 0 {
-				number -= int(r - '0')
-			} else {
-				number += int(r - '0')
-			}
-			if lastChar == '-' {
-				number *= -1
-			}
-		} else {
-			if number != 0 {
-				levelRunningCount += number
-				number = 0
-			}
-			if r == '[' || r == '{' {
-				level++
-			} else if r == ']' || r == '}' {
-				sumTotal += levelRunningCount
-				if !currentlyIgnoring {
-					sumNoRed += levelRunningCount
-				} else if level == 0 {
-					currentlyIgnoring = false
-				}
-				level--
-				levelRunningCount = 0
+	var jsonObj interface{}
+	json.Unmarshal([]byte(scanner.Text()), &jsonObj)
+
+	sumTotal, sumNoRed, _ := sum(jsonObj)
+
+	fmt.Println("", sumTotal)
+	fmt.Println("", sumNoRed)
+}
+
+// Sum all numbers in the given JSON entity, returning the total sum.
+// Also returns the sum excluding all objects (and their children)
+// where some attribute's value is set to "red".
+func sum(obj interface{}) (total, noRed float64, red bool) {
+	switch v := obj.(type) {
+	case string:
+		if v == "red" {
+			return 0, 0, true
+		}
+	case float64:
+		total, noRed = v, v
+	case []interface{}:
+		for _, e := range v {
+			t, nr, _ := sum(e)
+			total += t
+			noRed += nr
+		}
+	case map[string]interface{}:
+		var hasSomethingRed bool
+		for _, e := range v {
+			t, nr, isRed := sum(e)
+			total += t
+			noRed += nr
+			if isRed {
+				hasSomethingRed = true
 			}
 		}
-		lastChar = r
+		if hasSomethingRed {
+			return total, 0, false
+		}
 	}
-
-	fmt.Println("Sum of all numbers in the JSON:", sumTotal)
-	fmt.Println("Sum when ignoring everything red:", sumNoRed)
+	return
 }
