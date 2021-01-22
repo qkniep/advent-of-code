@@ -73,23 +73,19 @@ func main() {
 func simulateFight(player character, enemy character, items [4]item) bool {
 	var itemDamage = items[0].damage + items[1].damage + items[2].damage + items[3].damage
 	var itemArmor = items[0].armor + items[1].armor + items[2].armor + items[3].armor
+	// damage per round (DPR)
+	var playerDPR = max(1, (player.damage + itemDamage) - enemy.armor)
+	var enemyDPR = max(1, enemy.damage - (player.armor + itemArmor))
 
-	for pTurn := true; player.hitPoints > 0 && enemy.hitPoints > 0; pTurn = !pTurn {
-		var finalDamage int
-		if pTurn {
-			finalDamage = (player.damage + itemDamage) - enemy.armor
-			if finalDamage <= 0 {
-				finalDamage = 1
-			}
-			enemy.hitPoints -= finalDamage
-		} else {
-			finalDamage = enemy.damage - (player.armor + itemArmor)
-			if finalDamage <= 0 {
-				finalDamage = 1
-			}
-			player.hitPoints -= finalDamage
-		}
+	var roundsToKillEnemy = (enemy.hitPoints + playerDPR - 1) / playerDPR
+	var roundsToKillPlayer = (player.hitPoints + enemyDPR - 1) / enemyDPR
+
+	return roundsToKillEnemy <= roundsToKillPlayer
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
 	}
-
-	return player.hitPoints > 0
+	return b
 }
