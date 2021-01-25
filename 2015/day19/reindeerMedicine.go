@@ -18,15 +18,18 @@ func main() {
 			break
 		}
 		fmt.Sscanf(scanner.Text(), "%s => %s", &from, &to)
-		replacements[from] = append(replacements[from], to)
+		//replacements[from] = append(replacements[from], to)
+		replacements[to] = append(replacements[to], from)
 	}
 
 	scanner.Scan()
 	var medicineMolecule = scanner.Text()
 
 	oneStep := numDistinctReplacements(medicineMolecule, replacements, 1)
+	cost := costToProduce("e", replacements, medicineMolecule)
 
 	fmt.Println("Number of distinct one-step replacements:", oneStep)
+	fmt.Println("Cost of medicine:", cost)
 }
 
 func numDistinctReplacements(start string, replacements map[string][]string, steps int) (distinct int) {
@@ -50,6 +53,22 @@ func numDistinctReplacements(start string, replacements map[string][]string, ste
 					distinct++
 				}
 				molecules[molecule] = true
+			}
+		}
+	}
+	return
+}
+
+func costToProduce(start string, replacements map[string][]string, goal string) (steps int) {
+	for goal != start {
+		for s, r := range replacements {
+			for {
+				c := strings.Count(goal, s)
+				if c <= 0 {
+					break
+				}
+				steps += c
+				goal = strings.Replace(goal, s, r[0], -1)
 			}
 		}
 	}
