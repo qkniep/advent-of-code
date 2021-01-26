@@ -41,7 +41,7 @@ func countDiffs(nums []int) (int, int) {
 	return diff1, diff3
 }
 
-// Runs in: O(n) with O(1) space, where n=len(nums).
+// Runs in: O(n) with O(1) additional space, where n=len(nums).
 func countArrangements(nums []int) int {
 	var vals = []int{1, 1, 1}
 	for i := 1; i < len(nums); i++ {
