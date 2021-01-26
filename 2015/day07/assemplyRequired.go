@@ -26,8 +26,13 @@ func main() {
 		}
 	}
 
-	fmt.Println("Final signal on wire 'a':", signal("a", gates, signals))
-	//fmt.Println("Total brightness:", totalBrightness)
+	var a1 = signal("a", gates, signals)
+	signals = make(map[string]uint16, 0)
+	signals["b"] = a1
+	var a2 = signal("a", gates, signals)
+
+	fmt.Println("Signal on wire 'a':", a1)
+	fmt.Println("After changing 'b':", a2)
 }
 
 func signal(wire string, gates map[string][]string, signals map[string]uint16) uint16 {
