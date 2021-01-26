@@ -35,6 +35,8 @@ func main() {
 	fmt.Println("Length of longest route:", longestRoute)
 }
 
+// Tries all permutations, thus takes O(n!) time.
+// TODO use O(n^2*2^n) algorithm for finding hammilton cycles
 func optimalRoutes(cities []string, distances map[string]map[string]int) (int, int) {
 	var min, max = 999999, 0
 	perm(cities, func(cs []string) {
