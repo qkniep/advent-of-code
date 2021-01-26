@@ -20,7 +20,7 @@ func main() {
 			currentFloor--
 		}
 		if currentFloor == -1 && firstBasementPos == 0 {
-			firstBasementPos = i+1
+			firstBasementPos = i + 1
 		}
 	}
 

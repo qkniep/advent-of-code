@@ -43,7 +43,7 @@ func numDistinctReplacements(start string, replacements map[string][]string, ste
 					molecule += splits[j] + from
 				}
 				molecule += splits[i] + to
-				for j := i+1; j < len(splits); j++ {
+				for j := i + 1; j < len(splits); j++ {
 					if j > i+1 {
 						molecule += from
 					}

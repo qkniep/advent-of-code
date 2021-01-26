@@ -37,7 +37,7 @@ func satisfiesPolicy(pwd string) bool {
 	for _, r := range pwd {
 		if r == 'i' || r == 'o' || r == 'l' {
 			return false
-		} else if lastChar == secondLastChar + 1 && r == lastChar + 1 {
+		} else if lastChar == secondLastChar+1 && r == lastChar+1 {
 			straightFound = true
 		} else if r == lastChar {
 			if pairChar == 0 {
@@ -58,7 +58,7 @@ func incrementPassword(pwd string) string {
 	var needToIncrement = true
 	var pwdSlice = []byte(pwd)
 
-	for i := len(pwd)-1; i >= 0 && needToIncrement; i-- {
+	for i := len(pwd) - 1; i >= 0 && needToIncrement; i-- {
 		if pwdSlice[i] == byte('z') {
 			pwdSlice[i] = byte('a')
 		} else {

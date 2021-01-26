@@ -12,28 +12,28 @@ type item struct {
 
 func main() {
 	var weapons = []item{
-		{ 8, 4, 0},
+		{8, 4, 0},
 		{10, 5, 0},
 		{25, 6, 0},
 		{40, 7, 0},
 		{74, 8, 0},
 	}
 	var armors = []item{
-		{  0, 0, 0},
-		{ 13, 0, 1},
-		{ 31, 0, 2},
-		{ 53, 0, 3},
-		{ 75, 0, 4},
+		{0, 0, 0},
+		{13, 0, 1},
+		{31, 0, 2},
+		{53, 0, 3},
+		{75, 0, 4},
 		{102, 0, 5},
 	}
-	var rings = []item {
-		{  0, 0, 0},
-		{ 25, 1, 0},
-		{ 50, 2, 0},
+	var rings = []item{
+		{0, 0, 0},
+		{25, 1, 0},
+		{50, 2, 0},
 		{100, 3, 0},
-		{ 20, 0, 1},
-		{ 40, 0, 2},
-		{ 80, 0, 3},
+		{20, 0, 1},
+		{40, 0, 2},
+		{80, 0, 3},
 	}
 	var player = character{100, 0, 0}
 	var boss character
@@ -74,8 +74,8 @@ func simulateFight(player character, enemy character, items [4]item) bool {
 	var itemDamage = items[0].damage + items[1].damage + items[2].damage + items[3].damage
 	var itemArmor = items[0].armor + items[1].armor + items[2].armor + items[3].armor
 	// damage per round (DPR)
-	var playerDPR = max(1, (player.damage + itemDamage) - enemy.armor)
-	var enemyDPR = max(1, enemy.damage - (player.armor + itemArmor))
+	var playerDPR = max(1, (player.damage+itemDamage)-enemy.armor)
+	var enemyDPR = max(1, enemy.damage-(player.armor+itemArmor))
 
 	var roundsToKillEnemy = (enemy.hitPoints + playerDPR - 1) / playerDPR
 	var roundsToKillPlayer = (player.hitPoints + enemyDPR - 1) / enemyDPR

@@ -2,12 +2,20 @@ package main
 
 import "fmt"
 
-const (shield = iota; poison; recharge)
+const (
+	shield = iota
+	poison
+	recharge
+)
+
 type effect int
 
 type spell struct {
-	cost, damage, healing, effectTimer int
-	effectType effect
+	cost        int
+	damage      int
+	healing     int
+	effectTimer int
+	effectType  effect
 }
 
 type basicCharacter struct {
@@ -27,8 +35,8 @@ type gameState struct {
 }
 
 var spells = []spell{
-	{ 53, 4, 0, 0, 0},
-	{ 73, 2, 2, 0, 0},
+	{53, 4, 0, 0, 0},
+	{73, 2, 2, 0, 0},
 	{113, 0, 0, 6, shield},
 	{173, 0, 0, 6, poison},
 	{229, 0, 0, 5, recharge},
@@ -107,7 +115,7 @@ func simulateRound(state gameState, action spell, hardMode bool) gameState {
 
 	// boss' turn
 	state = applyEffects(state)
-	state.player.hitPoints -= max(1, state.boss.damage - state.player.armor)
+	state.player.hitPoints -= max(1, state.boss.damage-state.player.armor)
 	if state.player.hitPoints <= 0 {
 		state.bossWon = true
 	}

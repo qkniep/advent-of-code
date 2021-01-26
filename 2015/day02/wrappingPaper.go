@@ -21,8 +21,8 @@ func main() {
 		h, _ := strconv.Atoi(measures[2])
 		wrappingPaper += 2*l*w + 2*l*h + 2*w*h
 		wrappingPaper += min(l*w, l*h, w*h)
-		ribbon += min(2*l + 2*w, 2*l + 2*h, 2*w + 2*h);
-		ribbon += l*w*h;
+		ribbon += min(2*l+2*w, 2*l+2*h, 2*w+2*h)
+		ribbon += l * w * h
 	}
 
 	fmt.Printf("Wrapping paper needed: %v\n", wrappingPaper)

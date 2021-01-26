@@ -97,7 +97,7 @@ func subsetSumExists(set []int, sum int, subsetSize int) bool {
 		var newSet = make([]int, len(set)-1)
 		copy(newSet[:i], set[:i])
 		copy(newSet[i:], set[i+1:])
-		if subsetSumExists(newSet, sum - set[i], subsetSize-1) {
+		if subsetSumExists(newSet, sum-set[i], subsetSize-1) {
 			return true
 		}
 	}

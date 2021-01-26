@@ -9,8 +9,8 @@ func main() {
 	var presents, house1, house2 int64
 	fmt.Scanf("%d", &presents)
 
-	house1 = findSmallestWithDivisorSum(presents / 10, math.MaxInt64)
-	house2 = findSmallestWithDivisorSum(presents / 11, 50)
+	house1 = findSmallestWithDivisorSum(presents/10, math.MaxInt64)
+	house2 = findSmallestWithDivisorSum(presents/11, 50)
 
 	fmt.Printf("First house (%d presents, 10 per Elf, no max): %d\n", presents, house1)
 	fmt.Printf("First house (%d presents, 11 per Elf, 50 houses max): %d\n", presents, house2)
@@ -24,12 +24,12 @@ func findSmallestWithDivisorSum(divisorSum int64, max int64) int64 {
 		// calculate sum of all factors
 		var sum int64
 		for j := int64(1); j*j <= i; j++ {
-			if i % j == 0 {
-				if i / j <= max {
+			if i%j == 0 {
+				if i/j <= max {
 					sum += j
 				}
 				if j*j < i && j <= max {
-					sum += i/j
+					sum += i / j
 				}
 			}
 		}

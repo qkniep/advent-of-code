@@ -44,7 +44,7 @@ func emulateProgramBehaviour(program [][]string, ip, ra, rb int) int {
 			offset, _ := strconv.Atoi(program[ip][1])
 			ip += offset
 		case "jie":
-			if ra % 2 == 0 {
+			if ra%2 == 0 {
 				offset, _ := strconv.Atoi(program[ip][2])
 				ip += offset
 			} else {

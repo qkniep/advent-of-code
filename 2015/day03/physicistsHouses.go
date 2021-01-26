@@ -24,7 +24,7 @@ func main() {
 	scanner.Scan()
 	for i, r := range scanner.Text() {
 		applyChange(&currentPos, r)
-		if i % 2 == 1 {
+		if i%2 == 1 {
 			applyChange(&roboPos, r)
 			visitedRobo[roboPos] = true
 		} else {

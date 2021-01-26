@@ -8,6 +8,7 @@ import (
 )
 
 const vowels = "aeiou"
+
 var naughtyCombinations = map[rune]rune{'a': 'b', 'c': 'd', 'p': 'q', 'x': 'y'}
 
 func main() {
@@ -57,6 +58,6 @@ func main() {
 		}
 	}
 
-	fmt.Printf("Number of nice strings: %v\n", niceStrings)
-	fmt.Printf("New better nice strings: %v\n", betterNiceStrings)
+	fmt.Println("Number of nice strings:", niceStrings)
+	fmt.Println("New better nice strings:", betterNiceStrings)
 }
