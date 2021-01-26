@@ -10,6 +10,6 @@ I used the 2020 Advent of Code to refresh my knowledge of the Go programming lan
 ## 2017
 I used the 2017 Advent of Code to learn the Go programming language.
 
-## 2015
+## 2015 (50⭐)
 Originally, I solved these challenges in C++ (I think); it is now over 5 years since.
 Now I started solving these again, this time in Go.
