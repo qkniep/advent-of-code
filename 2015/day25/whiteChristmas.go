@@ -20,8 +20,8 @@ func main() {
 }
 
 func codeNumber(row, column int64) int64 {
-	firstInCol := column * (column+1) / 2
-	rowPart := (column+row-2) * (column+row-1) / 2 - column * (column-1) / 2
+	firstInCol := column * (column + 1) / 2
+	rowPart := (column+row-2)*(column+row-1)/2 - column*(column-1)/2
 	return firstInCol + rowPart
 }
 
