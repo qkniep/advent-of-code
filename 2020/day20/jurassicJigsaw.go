@@ -7,10 +7,10 @@ import (
 )
 
 const (
-	top = 0
+	top    = 0
 	bottom = 1
-	left = 2
-	right = 3
+	left   = 2
+	right  = 3
 )
 
 type tile struct {
@@ -176,7 +176,7 @@ func solveJigsaw(tiles []tile, startingTile int) (solved []string) {
 					if match.needToFlip {
 						flipTileHori(&tiles[match.otherTile])
 					}
-					solved = placeTile(solved, tiles, match.otherTile, (x==0))
+					solved = placeTile(solved, tiles, match.otherTile, (x == 0))
 					break
 				}
 			}
@@ -238,9 +238,9 @@ func rotateCW(image []string, degrees int) []string {
 		flipHorizontally(image)
 		flipVertically(image)
 	}
-	if degrees % 180 == 90 {
+	if degrees%180 == 90 {
 		outImage := make([]string, len(image))
-		for y := len(image)-1; y >= 0; y-- {
+		for y := len(image) - 1; y >= 0; y-- {
 			for x := 0; x < len(image[0]); x++ {
 				outImage[x] += string(rune(image[y][x]))
 			}
