@@ -17,6 +17,13 @@ func (l line) parallel(o line) bool {
 	return (l.x1 == l.x2) == (o.x1 == o.x2)
 }
 
+func (l line) length() int {
+	if l.x1 == l.x2 {
+		return abs(l.y1 - l.y2)
+	}
+	return abs(l.x1 - l.x2)
+}
+
 func main() {
 	var wire1, wire2 []line
 	var scanner = bufio.NewScanner(os.Stdin)
@@ -27,7 +34,7 @@ func main() {
 	wire2 = constructWire(scanner.Text())
 
 	fmt.Println("Distance to origin of closest crossing:", findMinCrossingDistance(wire1, wire2))
-	//fmt.Println("Recursive fuel requirements:", 100 * correctNoun + correctVerb)
+	fmt.Println("Number of steps until first crossing:", findMinCrossingSteps(wire1, wire2))
 }
 
 func constructWire(s string) []line {
@@ -51,6 +58,30 @@ func constructWire(s string) []line {
 	}
 
 	return segments
+}
+
+func findMinCrossingSteps(wire1, wire2 []line) int {
+	var minSteps = 99999
+	var steps, oldSteps, newSteps int
+
+	for _, segment1 := range wire1 {
+		oldSteps = steps
+		for _, segment2 := range wire2 {
+			doIntersect, x, y := intersectLines(segment1, segment2)
+			if segment1.x1 == segment1.x2 {
+				newSteps = steps + abs(y - segment1.y1) + abs(x - segment2.x1)
+			} else {
+				newSteps = steps + abs(y - segment2.y1) + abs(x - segment1.x1)
+			}
+			if doIntersect && (x != 0 || y != 0) && newSteps < minSteps {
+				minSteps = newSteps
+			}
+			steps += segment2.length()
+		}
+		steps = oldSteps + segment1.length()
+	}
+
+	return minSteps
 }
 
 func findMinCrossingDistance(wire1, wire2 []line) int {
