@@ -26,8 +26,8 @@ func main() {
 
 	correctNoun, correctVerb := findCorrectInput(intcode)
 
-	fmt.Printf("Fuel requirement for mass: %d\n", runProgramCopy(intcode, 12, 2))
-	fmt.Printf("Recursive fuel requirements: %d\n", 100 * correctNoun + correctVerb)
+	fmt.Println("Value at address 0 after restoring 1202 state:", runProgramCopy(intcode, 12, 2))
+	fmt.Println("Correct input (first two digits noun, second two verb):", 100 * correctNoun + correctVerb)
 }
 
 // Finds inputs (noun+verb) for the given intcode prgram that produce the desired output.
