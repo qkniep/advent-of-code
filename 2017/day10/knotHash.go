@@ -69,7 +69,7 @@ func densify(sparse []int) (dense string) {
 		for i := 0; i < 16; i++ {
 			char ^= sparse[16*block+i]
 		}
-		dense = fmt.Sprintf("%s%x", dense, char)
+		dense += fmt.Sprintf("%02x", char)
 	}
 	return
 }
