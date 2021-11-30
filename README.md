@@ -14,7 +14,7 @@ I used the 2020 Advent of Code to refresh my knowledge of the Go programming lan
 This worked rather well.
 Because of this I was able to rather quickly rewrite the complete codebase of my [online travel planner](http://travelbetter.app) from Rust into Go.
 
-## 2019 (9⭐)
+## 2019 (13⭐)
 Using these as a preparation for the 2021 AoC.
 
 ## 2017 (37⭐)
