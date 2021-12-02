@@ -6,7 +6,7 @@
 A collection of all my solutions to the challenges of [Advent of Code](https://adventofcode.com) over the years, all in Go.
 Solutions will only be posted 24 hours after each challenge started.
 
-## 2021 (2⭐)
+## 2021 (4⭐)
 This year I will again refresh my knowledge of Go, as I mostly used Rust and a bit of Python and C++ recently.
 
 ## 2020 (50⭐)
