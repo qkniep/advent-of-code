@@ -50,7 +50,7 @@ func main() {
 	count2 := countOverlapping(diagram2)
 
 	fmt.Println("Number of overlapping points without diagonal pipes:", count1)
-	fmt.Println("Number of overlapping points with diagonal pipes", count2)
+	fmt.Println("Number of overlapping points with diagonal pipes:", count2)
 }
 
 // Builds a diagram of the pipes with the number of overlapping pipes in each grid position.
