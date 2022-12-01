@@ -1,12 +1,15 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/qkniep/advent-of-code)](https://goreportcard.com/report/github.com/qkniep/advent-of-code)
 [![License: MIT](https://img.shields.io/github/license/qkniep/advent-of-code)](LICENSE)
 
-# Advent Of Code
+# Advent Of Code (in Go)
 
 A collection of all my solutions to the challenges of [Advent of Code](https://adventofcode.com) over the years, all in Go.
 Solutions will only be posted 24 hours after each challenge started.
 
-## 2021 (14⭐)
+## 2022 (2⭐)
+Back at it again with Go.
+
+## 2021 (16⭐)
 This year I will again refresh my knowledge of Go, as I mostly used Rust and a bit of Python and C++ recently.
 
 ## 2020 (50⭐)
