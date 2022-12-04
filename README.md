@@ -9,7 +9,7 @@ Solutions will only be posted 24 hours after each challenge started.
 ## 2022 (8⭐)
 Back at it again with Go.
 
-## 2021 (16⭐)
+## 2021 (20⭐)
 This year I will again refresh my knowledge of Go, as I mostly used Rust and a bit of Python and C++ recently.
 
 ## 2020 (50⭐)
