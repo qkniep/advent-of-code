@@ -6,7 +6,7 @@
 A collection of all my solutions to the challenges of [Advent of Code](https://adventofcode.com) over the years, all in Go.
 Solutions will only be posted 24 hours after each challenge started.
 
-## 2022 (10⭐)
+## 2022 (12⭐)
 Back at it again with Go.
 
 ## 2021 (20⭐)
