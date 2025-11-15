@@ -1,0 +1,4 @@
+(library
+ (name year_2016)
+ (libraries aocaml)
+ (modules (:standard)))

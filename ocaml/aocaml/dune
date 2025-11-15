@@ -1,0 +1,4 @@
+(library
+  (name aocaml)
+  (libraries unix)
+  (modules day_intf input util))
