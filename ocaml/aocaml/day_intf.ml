@@ -1,4 +1,6 @@
 module type DAY = sig
+  val year : int
+  val day : int
   val name : string
 
   val read_input : unit -> string list

@@ -1,22 +1,24 @@
 open Aocaml.Day_intf
-open Aocaml.Util
+open Aocaml.Timing
 
 let run_day (module D : DAY) year day =
-  Printf.printf "⁘⁙⁘⁙⁘ Advent of Code %d ⁘⁙⁘⁙⁘\n%!" year;
+  Printf.printf "⁘⁙⁘⁙⁘ AOCaml %d ⁘⁙⁘⁙⁘\n%!" year;
   Printf.printf "Day %d: %s\n%!" day D.name;
 
   let input, t = time (fun () -> D.read_input ()) in
-  Printf.printf "  - Read input in %s\n%!" (time_to_str t);
+  Printf.printf " -> Read input \x1b[90m%s\x1b[0m\n%!" (time_to_str t);
 
   let run_variants part variants =
-    List.iter (fun (name, f) ->
-      (* let _res, t = time (label ^ "/" ^ name) (fun () -> f input) in *)
+    let num_variants = List.length variants in
+    List.iteri (fun i (name, f) ->
       let res, t = time (fun () -> f input) in
       let t = time_to_str t in
       let () = if name = "" then
-        Printf.printf "  - Part %d %s %d\n%!" part t res
+        Printf.printf " |> Part %d \x1b[90m%s\x1b[0m\t%d\n%!" part t res
+      else if i < num_variants - 1 then
+        Printf.printf "    ├ %s \x1b[90m%s\x1b[0m\t%d\n%!" name t res
       else
-        Printf.printf "  - Part %d (%s) %s %d\n%!" part name t res
+        Printf.printf "    └ %s \x1b[90m%s\x1b[0m\t%d\n%!" name t res
       in
       ()) variants
   in

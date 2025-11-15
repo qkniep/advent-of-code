@@ -2,9 +2,11 @@ open Aocaml.Input
 open Aocaml.Day_intf
 
 module Day02 : DAY = struct
+  let year = 2016
+  let day = 2
   let name = "Bathroom Security"
 
-  let read_input () = Input.read_lines ()
+  let read_input () = read_lines ()
 
   let solve_part1 (input : string list) = List.length input
 
