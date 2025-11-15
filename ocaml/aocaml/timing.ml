@@ -3,7 +3,7 @@ let time f =
   let res = f () in
   let t1 = Unix.gettimeofday () in
   (* Printf.printf "Time: %.3f ms\n%!" (t1 -. t0); *)
-  res, (t1 -. t0)
+  (res, t1 -. t0)
 
 let benchmark ~reps f =
   let t0 = Unix.gettimeofday () in

@@ -2,4 +2,5 @@
  (name main)
  (libraries aocaml year_2016)
  (modules main)
- (flags (:standard -w -40)))
+ (flags
+  (:standard -w -40)))

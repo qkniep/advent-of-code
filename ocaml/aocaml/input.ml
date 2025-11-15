@@ -24,26 +24,14 @@ let read_all () =
   Buffer.contents buf
 
 let split s ~on = String.split_on_char on s
-
-let lines s =
-  s |> String.split_on_char '\n'
-
-let words s =
-  s |> String.split_on_char ' '
-    |> List.filter (fun x -> x <> "")
-
-let ints s =
-  s |> words
-    |> List.map int_of_string
-
-let comma_ints s =
-  s |> split ~on:','
-    |> List.map int_of_string
+let lines s = split ~on:'\n' s
+let words s = s |> split ~on:' ' |> List.filter (fun x -> x <> "")
+let ints s = s |> words |> List.map int_of_string
+let comma_ints s = s |> split ~on:',' |> List.map int_of_string
 
 let digits_of_string s =
   s |> String.to_seq
-    |> Seq.map (fun c -> Char.code c - Char.code '0')
-    |> List.of_seq
+  |> Seq.map (fun c -> Char.code c - Char.code '0')
+  |> List.of_seq
 
-let int_grid lines =
-  List.map digits_of_string lines
+let int_grid lines = List.map digits_of_string lines
