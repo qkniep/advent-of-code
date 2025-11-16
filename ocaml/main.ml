@@ -49,6 +49,7 @@ let () =
     | 2016, 2 -> (module Year_2016.Day02.Day02 : DAY)
     | 2016, 3 -> (module Year_2016.Day03.Day03 : DAY)
     | 2016, 4 -> (module Year_2016.Day04.Day04 : DAY)
+    | 2016, 5 -> (module Year_2016.Day05.Day05 : DAY)
     | _ ->
         failwith (Printf.sprintf "Day %d of year %d not implemented\n" day year)
   in
