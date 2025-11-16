@@ -1,3 +1,4 @@
+open Core
 open Day_intf
 open Input
 open Timing
@@ -11,13 +12,13 @@ let test_day (module D : DAY) year day solutions =
   let test_variants part variants solution =
     let num_variants = List.length variants in
     List.iteri
-      (fun i (name, f) ->
+      ~f:(fun i (name, f) ->
         let res, t = time (fun () -> f input) in
         let out = D.string_of_output res in
         assert (String.equal out solution);
         let t = time_to_str t in
         let () =
-          if name = "" then
+          if String.is_empty name then
             Printf.printf " |> Part %d \x1b[0;32mPASSED\x1b[0m \x1b[90m%s\x1b[0m\t%s\n%!" part t out
           else if i < num_variants - 1 then
             Printf.printf "    ├ %s \x1b[0;32mPASSED\x1b[0m \x1b[90m%s\x1b[0m\t%s\n%!" name t out
