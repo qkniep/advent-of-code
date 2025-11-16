@@ -27,7 +27,7 @@ module Day05 : DAY = struct
   type output = string
 
   let parse_input raw = String.strip raw
-  let string_of_output output = output
+  let string_of_output out = out
 
   let solve_part1 input =
     Sequence.take (password_sequence input) 8

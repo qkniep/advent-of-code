@@ -45,7 +45,7 @@ module Day06 : DAY = struct
   type output = string
 
   let parse_input raw = lines raw
-  let string_of_output output = output
+  let string_of_output out = out
 
   let solve_part1 input = most_common_letters input |> Bytes.to_string
 

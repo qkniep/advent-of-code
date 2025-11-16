@@ -7,7 +7,7 @@ Solutions will only be posted 24 hours after each challenge started.
 
 [Here](./go) are the solutions in Go.
 
-## OCaml (12/550⭐)
+## OCaml (14/550⭐)
 
 [Here](./ocaml) are the solutions in OCaml.
 
