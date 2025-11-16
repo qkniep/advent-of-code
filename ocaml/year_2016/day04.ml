@@ -40,6 +40,17 @@ let real_room room =
   let top5 = top5_letters counter in
   String.equal top5 room.checksum
 
+let decrypt_name room =
+  let shift = room.sector mod 26 in
+  List.map
+    ~f:(fun word ->
+      String.map ~f:(fun c -> 
+      Char.of_int_exn ((Char.to_int c - Char.to_int 'a' + shift) mod 26 + Char.to_int 'a')
+) word
+    )
+    room.words
+  |> String.concat ~sep:" "
+
 module Day04 : DAY = struct
   let name = "Security Through Obscurity"
 
@@ -54,7 +65,10 @@ module Day04 : DAY = struct
     List.filter ~f:real_room input
     |> List.sum (module Int) ~f:(fun room -> room.sector)
 
-  let solve_part2 _input = 0
+  let solve_part2 input = 
+    let room = List.filter ~f:real_room input
+      |> List.find_exn ~f:(fun room -> String.equal (decrypt_name room) "northpole object storage") in
+    room.sector
 
   (* no variants, just empty lists *)
   let solve_part1_variants = []
