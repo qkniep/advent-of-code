@@ -1,4 +1,5 @@
 (library
  (name year_2016)
  (libraries aocaml core)
- (modules (:standard)))
+ (inline_tests)
+ (preprocess (pps ppx_inline_test ppx_expect)))

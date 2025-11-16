@@ -86,3 +86,8 @@ module Day04 : DAY = struct
   let solve_part1_variants = []
   let solve_part2_variants = []
 end
+
+let%test_unit "2016 day 4" =
+  let open Aocaml.Test in
+  let solutions = [ "173787"; "548" ] in
+  test_day (module Day04 : DAY) 2016 4 solutions

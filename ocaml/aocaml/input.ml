@@ -4,6 +4,10 @@ let load_input_file year day =
   let path = Printf.sprintf "../data/%d/inputs/day%02d.txt" year day in
   In_channel.read_all path
 
+let load_input_file_tests year day =
+  let path = Printf.sprintf "../../../../../../data/%d/inputs/day%02d.txt" year day in
+  In_channel.read_all path
+
 let read_lines () =
   let rec loop acc =
     match In_channel.input_line_exn In_channel.stdin with

@@ -1,4 +1,3 @@
 (library
  (name aocaml)
- (libraries core_unix)
- (modules day_intf input timing))
+ (libraries core_unix))
