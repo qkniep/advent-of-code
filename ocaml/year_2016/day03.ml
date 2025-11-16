@@ -1,5 +1,4 @@
 open Core
-
 open Aocaml.Input
 open Aocaml.Day_intf
 
@@ -24,7 +23,6 @@ module Day03 : DAY = struct
   type output = int
 
   let parse_input raw = List.map ~f:ints @@ lines raw
-
   let string_of_output = string_of_int
 
   let solve_part1 input =

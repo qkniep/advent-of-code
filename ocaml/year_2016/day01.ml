@@ -1,5 +1,4 @@
 open Core
-
 open Aocaml.Input
 open Aocaml.Day_intf
 
@@ -12,10 +11,10 @@ module Position = struct
     let origin = { x = 0; y = 0 }
 
     let compare t1 t2 =
-      match Int.compare t1.x t2.x with
-      0 -> Int.compare t1.y t2.y | c -> c
+      match Int.compare t1.x t2.x with 0 -> Int.compare t1.y t2.y | c -> c
 
-    let sexp_of_t t : Sexp.t = List [ Atom (string_of_int t.x); Atom (string_of_int t.y) ]
+    let sexp_of_t t : Sexp.t =
+      List [ Atom (string_of_int t.x); Atom (string_of_int t.y) ]
   end
 
   include T
@@ -24,23 +23,8 @@ end
 type orientation = North | South | East | West
 
 let steps_of_inst = function
-  | Left s -> TurnLeft :: List.init s ~f:(fun _ -> Forward) 
-  | Right s -> TurnRight :: List.init s ~f:(fun _ -> Forward) 
-
-(* module Point2d = struct *)
-(*   module T = struct *)
-(*     type t = { x : int; y : int } *)
-(*  *)
-(*     let compare t1 t2 = *)
-(*       let cmp_title = Int.compare t1.x t2.x in *)
-(*       if cmp_title <> 0 then cmp_title else Int.compare t1.y t2.y *)
-(*  *)
-(*     let sexp_of_t t : Sexp.t = List [ Atom (string_of_int t.x); Atom (string_of_int t.y) ] *)
-(*   end *)
-(*  *)
-(*   include T *)
-(*   include Comparator.Make (T) *)
-(* end *)
+  | Left s -> TurnLeft :: List.init s ~f:(fun _ -> Forward)
+  | Right s -> TurnRight :: List.init s ~f:(fun _ -> Forward)
 
 let turn_left = function
   | North -> West
@@ -116,8 +100,7 @@ module Day01 : DAY = struct
     let end_pos, _ =
       List.fold_left
         ~f:(fun (pos, dir) inst -> apply_inst pos dir inst)
-        ~init:(start_pos, start_dir)
-        input
+        ~init:(start_pos, start_dir) input
     in
     distance end_pos
 
@@ -127,10 +110,13 @@ module Day01 : DAY = struct
     let start_pos = Position.origin in
     let _, _, end_pos, _ =
       List.fold_left
-        ~f:(fun (is_done, visited, pos, dir) step -> 
-          if is_done then (true, visited, pos, dir) else
+        ~f:(fun (is_done, visited, pos, dir) step ->
+          if is_done then (true, visited, pos, dir)
+          else
             let new_pos, new_dir = apply_step pos dir step in
-            let is_done = match step with Forward -> Set.mem visited new_pos | _ -> false in
+            let is_done =
+              match step with Forward -> Set.mem visited new_pos | _ -> false
+            in
             let new_visited = Set.add visited new_pos in
             (is_done, new_visited, new_pos, new_dir))
         ~init:(false, Set.empty (module Position), start_pos, start_dir)

@@ -1,5 +1,4 @@
 open Core
-
 open Aocaml.Input
 open Aocaml.Day_intf
 
@@ -16,20 +15,22 @@ let directions_of_string str =
   str |> String.to_list |> List.map ~f:direction_of_char
 
 let move (x, y) dir =
-  let (nx, ny) = match dir with
-  | Up -> (x, y - 1)
-  | Down -> (x, y + 1)
-  | Left -> (x - 1, y)
-  | Right -> (x + 1, y)
+  let nx, ny =
+    match dir with
+    | Up -> (x, y - 1)
+    | Down -> (x, y + 1)
+    | Left -> (x - 1, y)
+    | Right -> (x + 1, y)
   in
   if abs nx < 2 && abs ny < 2 then (nx, ny) else (x, y)
 
 let move_2 (x, y) dir =
-  let (nx, ny) = match dir with
-  | Up -> (x, y - 1)
-  | Down -> (x, y + 1)
-  | Left -> (x - 1, y)
-  | Right -> (x + 1, y)
+  let nx, ny =
+    match dir with
+    | Up -> (x, y - 1)
+    | Down -> (x, y + 1)
+    | Left -> (x - 1, y)
+    | Right -> (x + 1, y)
   in
   if abs nx + abs ny <= 2 then (nx, ny) else (x, y)
 
@@ -70,30 +71,29 @@ module Day02 : DAY = struct
   type output = int
 
   let parse_input raw = List.map ~f:directions_of_string @@ lines raw
-
   let string_of_output hex_code = Printf.sprintf "%X" hex_code
 
   let solve_part1 input =
-    let code, _ = List.fold_left
-      ~f:(fun (code, pos) directions -> 
-        let new_pos = List.fold_left ~f:move ~init:pos directions in
-        let digit = digit_of_position new_pos in
-        (code * 16 + digit, new_pos)
-      )
-      ~init:(0, (0, 0))
-      input
+    let code, _ =
+      List.fold_left
+        ~f:(fun (code, pos) directions ->
+          let new_pos = List.fold_left ~f:move ~init:pos directions in
+          let digit = digit_of_position new_pos in
+          ((code * 16) + digit, new_pos))
+        ~init:(0, (0, 0))
+        input
     in
     code
 
   let solve_part2 input =
-    let code, _ = List.fold_left
-      ~f:(fun (code, pos) directions -> 
-        let new_pos = List.fold_left ~f:move_2 ~init:pos directions in
-        let digit = digit_of_position_2 new_pos in
-        (code * 16 + digit, new_pos)
-      )
-      ~init:(0, (0, 0))
-      input
+    let code, _ =
+      List.fold_left
+        ~f:(fun (code, pos) directions ->
+          let new_pos = List.fold_left ~f:move_2 ~init:pos directions in
+          let digit = digit_of_position_2 new_pos in
+          ((code * 16) + digit, new_pos))
+        ~init:(0, (0, 0))
+        input
     in
     code
 
