@@ -1,3 +1,4 @@
+open Core
 open Aocaml.Day_intf
 open Aocaml.Input
 open Aocaml.Timing
@@ -15,12 +16,12 @@ let run_day (module D : DAY) year day =
   let run_variants part variants =
     let num_variants = List.length variants in
     List.iteri
-      (fun i (name, f) ->
+      ~f:(fun i (name, f) ->
         let res, t = time (fun () -> f input) in
         let output = D.string_of_output res in
         let t = time_to_str t in
         let () =
-          if name = "" then
+          if String.is_empty name then
             Printf.printf " |> Part %d \x1b[90m%s\x1b[0m\t%s\n%!" part t output
           else if i < num_variants - 1 then
             Printf.printf "    ├ %s \x1b[90m%s\x1b[0m\t%s\n%!" name t output
@@ -36,8 +37,9 @@ let run_day (module D : DAY) year day =
 let () =
   (* default to day 1 of 2016 *)
   let year, day =
-    if Array.length Sys.argv > 2 then
-      (int_of_string Sys.argv.(1), int_of_string Sys.argv.(2))
+    let args = Sys.get_argv () in
+    if Array.length args > 2 then
+      (int_of_string args.(1), int_of_string args.(2))
     else (2016, 1)
   in
 
