@@ -24,7 +24,7 @@ let read_all () =
   Buffer.contents buf
 
 let split s ~on = String.split_on_char on s
-let lines s = split ~on:'\n' s
+let lines s = split ~on:'\n' s |> List.filter (fun x -> x <> "")
 let words s = s |> split ~on:' ' |> List.filter (fun x -> x <> "")
 let ints s = s |> words |> List.map int_of_string
 let comma_ints s = s |> split ~on:',' |> List.map int_of_string

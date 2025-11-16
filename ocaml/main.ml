@@ -17,13 +17,14 @@ let run_day (module D : DAY) year day =
     List.iteri
       (fun i (name, f) ->
         let res, t = time (fun () -> f input) in
+        let output = D.string_of_output res in
         let t = time_to_str t in
         let () =
           if name = "" then
-            Printf.printf " |> Part %d \x1b[90m%s\x1b[0m\t%d\n%!" part t res
+            Printf.printf " |> Part %d \x1b[90m%s\x1b[0m\t%s\n%!" part t output
           else if i < num_variants - 1 then
-            Printf.printf "    ├ %s \x1b[90m%s\x1b[0m\t%d\n%!" name t res
-          else Printf.printf "    └ %s \x1b[90m%s\x1b[0m\t%d\n%!" name t res
+            Printf.printf "    ├ %s \x1b[90m%s\x1b[0m\t%s\n%!" name t output
+          else Printf.printf "    └ %s \x1b[90m%s\x1b[0m\t%s\n%!" name t output
         in
         ())
       variants

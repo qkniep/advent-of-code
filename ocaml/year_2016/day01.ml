@@ -91,9 +91,10 @@ module Day01 : DAY = struct
   let name = "No Time for a Taxicab"
 
   type input = instruction list
+  type output = int
 
-  let parse_input str =
-    let input = words str in
+  let parse_input raw =
+    let input = words raw in
     List.map
       ~f:(fun inst ->
         if String.length inst < 2 then
@@ -106,6 +107,8 @@ module Day01 : DAY = struct
         | 'R' -> Right steps
         | c -> invalid_arg @@ Printf.sprintf "invalid direction: %c" c)
       input
+
+  let string_of_output = string_of_int
 
   let solve_part1 input =
     let start_dir = North in
