@@ -3,5 +3,5 @@
 A collection of all my solutions to the challenges of [Advent of Code](https://adventofcode.com) over the years, all in OCaml.
 Solutions will only be posted 24 hours after each challenge started.
 
-## 2016 (14⭐)
+## 2016 (16⭐)
 First learning OCaml.
