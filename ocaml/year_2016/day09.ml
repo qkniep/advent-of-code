@@ -17,7 +17,22 @@ let rec decompressed_length input =
     let new_str = (String.sub input ~pos:read ~len:(String.length input - read)) in
     output + decompressed_length new_str
 
-let decompressed_length_v2 _input = 0
+let rec decompressed_length_v2 input =
+  if String.length input = 0 then 0
+  else
+    let (read, output, reps, rep_str) = if Char.equal input.[0] '(' then
+      let i = String.index_exn input ')' in
+      let str = String.sub input ~pos:1 ~len:(i - 1) in
+      match String.split ~on:'x' str with
+      | [ len; rep ] ->
+          let len = int_of_string len in
+          let rep = int_of_string rep in
+          let rep_str = (String.sub input ~pos:(i + 1) ~len:len) in
+          (i + len + 1, 0, rep, rep_str)
+      | _ -> invalid_arg ("invalid marker: " ^ str)
+    else (1, 1, 0, "") in
+    let tail = (String.sub input ~pos:read ~len:(String.length input - read)) in
+    output + (reps * decompressed_length_v2 rep_str) + decompressed_length_v2 tail
 
 module Day09 : DAY = struct
   let name = "Explosives in Cyberspace"
@@ -37,5 +52,5 @@ end
 
 let%test_unit "2016 day 9" =
   let open Aocaml.Test in
-  let solutions = [ ""; "" ] in
+  let solutions = [ "115118"; "11107527530" ] in
   test_day (module Day09 : DAY) 2016 9 solutions
