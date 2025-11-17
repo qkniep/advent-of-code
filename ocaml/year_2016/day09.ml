@@ -1,38 +1,43 @@
 open Core
 open Aocaml.Day_intf
 
+type token =
+  | Literal of char
+  | Marker of { len : int; rep : int; rep_str : string }
+
+(** Returns the token and the number of characters read. *)
+let parse_token input =
+  if Char.equal input.[0] '(' then
+    let i = String.index_exn input ')' in
+    let str = String.sub input ~pos:1 ~len:(i - 1) in
+    match String.split ~on:'x' str with
+    | [ len; rep ] ->
+        let len = int_of_string len in
+        let rep = int_of_string rep in
+        let rep_str = String.sub input ~pos:(i + 1) ~len in
+        (Marker { len; rep; rep_str }, i + len + 1)
+    | _ -> invalid_arg ("invalid marker: " ^ str)
+  else (Literal input.[0], 1)
+
 let rec decompressed_length input =
-  if String.length input = 0 then 0
+  if String.is_empty input then 0
   else
-    let (read, output) = if Char.equal input.[0] '(' then
-      let i = String.index_exn input ')' in
-      let str = String.sub input ~pos:1 ~len:(i - 1) in
-      match String.split ~on:'x' str with
-      | [ len; rep ] ->
-          let len = int_of_string len in
-          let rep = int_of_string rep in
-          (i + len + 1, len * rep)
-      | _ -> invalid_arg ("invalid marker: " ^ str)
-    else (1, 1) in
-    let new_str = (String.sub input ~pos:read ~len:(String.length input - read)) in
-    output + decompressed_length new_str
+    let token, read = parse_token input in
+    let output =
+      match token with Literal _ -> read | Marker { len; rep; _ } -> len * rep
+    in
+    output + decompressed_length (String.drop_prefix input read)
 
 let rec decompressed_length_v2 input =
-  if String.length input = 0 then 0
+  if String.is_empty input then 0
   else
-    let (read, output, reps, rep_str) = if Char.equal input.[0] '(' then
-      let i = String.index_exn input ')' in
-      let str = String.sub input ~pos:1 ~len:(i - 1) in
-      match String.split ~on:'x' str with
-      | [ len; rep ] ->
-          let len = int_of_string len in
-          let rep = int_of_string rep in
-          let rep_str = (String.sub input ~pos:(i + 1) ~len:len) in
-          (i + len + 1, 0, rep, rep_str)
-      | _ -> invalid_arg ("invalid marker: " ^ str)
-    else (1, 1, 0, "") in
-    let tail = (String.sub input ~pos:read ~len:(String.length input - read)) in
-    output + (reps * decompressed_length_v2 rep_str) + decompressed_length_v2 tail
+    let token, read = parse_token input in
+    let output =
+      match token with
+      | Literal _ -> read
+      | Marker { rep; rep_str; _ } -> rep * decompressed_length_v2 rep_str
+    in
+    output + decompressed_length_v2 (String.drop_prefix input read)
 
 module Day09 : DAY = struct
   let name = "Explosives in Cyberspace"
