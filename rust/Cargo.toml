@@ -4,8 +4,9 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-arrayvec = "0.7.6"
+arrayvec = "0.7"
 bitvec = "1"
+clap = "4"
 criterion = "0.7"
 dhat = "0.3"
 divan = "0.1"
