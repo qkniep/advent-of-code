@@ -102,6 +102,7 @@ dependencies = [
  "dhat",
  "divan",
  "hotpath",
+ "libc",
  "pprof",
  "rayon",
  "smallvec",
