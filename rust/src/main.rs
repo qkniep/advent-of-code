@@ -1,5 +1,6 @@
 mod years;
 
+use aoc::measure;
 use clap::Parser;
 
 use self::years::*;
@@ -37,9 +38,19 @@ fn main() {
     let path = format!("../data/{}/inputs/day{:02}.txt", year, day);
     let input = std::fs::read_to_string(path).unwrap();
 
+    println!("⁘⁙⁘⁙⁘ Advent of Code {} ⁘⁙⁘⁙⁘", year);
+    println!("Day {}: {}", day, "");
     match year {
         2024 => match day {
-            1 => println!("Part 1: {}", y2024::day01::part1(&input)),
+            1 => {
+                let parsed = measure!("day1-parse", y2024::day01::parse(&input));
+                let p = parsed.clone();
+                println!("Part 1: {}", measure!("day1-part1", y2024::day01::part1(p)));
+                println!(
+                    "Part 2: {}",
+                    measure!("day1-part2", y2024::day01::part2(parsed))
+                );
+            }
             d if d <= 25 => todo!(),
             d => panic!("invalid day {}", d),
         },

@@ -11,7 +11,7 @@ Solutions will only be posted 24 hours after each challenge started.
 
 [Here](./ocaml) are the solutions in OCaml.
 
-## Rust (0/550⭐)
+## Rust (2/550⭐)
 
 [Here](./rust) are the solutions in Rust.
 
