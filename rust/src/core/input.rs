@@ -1,12 +1,18 @@
 use std::fmt::Debug;
 use std::str::FromStr;
 
-/// Split input into lines (no allocation).
+/// Loads input file for given `year` and `day` into a string.
+pub fn load_input(year: u16, day: u16) -> String {
+    let path = format!("../data/{}/inputs/day{:02}.txt", year, day);
+    std::fs::read_to_string(path).unwrap()
+}
+
+/// Splits `input` into lines (no allocation).
 pub fn lines(input: &str) -> impl Iterator<Item = &str> {
     input.lines()
 }
 
-/// Split and parse each line to numbers.
+/// Splits `input` into lines and parses each line.
 pub fn lines_as_numbers<T: FromStr>(input: &str) -> impl Iterator<Item = T>
 where
     <T as FromStr>::Err: Debug,
@@ -16,7 +22,17 @@ where
         .map(|line| line.parse::<T>().expect("failed to parse number"))
 }
 
-/// Split a string by a character and parse to numbers.
+/// Splits a string by ASCII whitespace and parses each such "word".
+pub fn parse_words<T: FromStr>(s: &str) -> Vec<T>
+where
+    <T as FromStr>::Err: Debug,
+{
+    s.split_ascii_whitespace()
+        .map(|x| x.parse::<T>().expect("failed to parse number"))
+        .collect()
+}
+
+/// Splits a string by a character and parses to numbers.
 pub fn split_to_numbers<T: FromStr>(s: &str, sep: char) -> Vec<T>
 where
     <T as FromStr>::Err: Debug,
@@ -26,7 +42,7 @@ where
         .collect()
 }
 
-/// Split string by multiple separators (like regex-free CSV).
+/// Splits string by multiple separators.
 pub fn split_multi<T: Debug + FromStr>(s: &str, seps: &[char]) -> Vec<T>
 where
     <T as FromStr>::Err: Debug,

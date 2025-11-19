@@ -44,9 +44,8 @@ fn main() {
     println!("{}", subtitle.bold());
 
     // load correct input file
-    let path = format!("../data/{}/inputs/day{:02}.txt", year, day);
     let start = Instant::now();
-    let input = std::fs::read_to_string(path).unwrap();
+    let input = input::load_input(year, day);
     println!(
         " -> Read input file {}",
         format_duration(start.elapsed()).bright_black()
