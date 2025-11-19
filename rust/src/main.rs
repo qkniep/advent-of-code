@@ -8,6 +8,9 @@ use colored::Colorize;
 
 use self::years::*;
 
+const FIRST_YEAR: u16 = 2015;
+const LAST_YEAR: u16 = 2025;
+
 #[derive(Parser)]
 #[clap(author, version, about)]
 struct Args {
@@ -45,11 +48,20 @@ fn main() {
     match year {
         2024 => match day {
             1 => day_run!(y2024::day01, part),
-            d if year >= 2025 && d <= 12 => todo!(),
-            d if d <= 25 => todo!(),
+            2 => day_run!(y2024::day02, part),
+            d if d <= days_per_year(2024) => todo!(),
             d => panic!("invalid day {}", d),
         },
-        y if (2015..2025).contains(&y) => todo!(),
+        FIRST_YEAR..=LAST_YEAR => todo!(),
         y => panic!("invalid year {}", y),
+    }
+}
+
+/// Returns number of days in `year`.
+pub const fn days_per_year(year: u16) -> u16 {
+    match year {
+        FIRST_YEAR..=2024 => 25,
+        2025 => 12,
+        _ => 0,
     }
 }

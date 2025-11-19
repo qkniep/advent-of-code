@@ -37,23 +37,80 @@ macro_rules! day_run {
         );
 
         if $part.is_none() || $part.unwrap() == 1 {
-            let parsed = parsed.clone();
+            // run part 1 (main solver)
+            let p = parsed.clone();
             let start = Instant::now();
-            let output = day::part1(parsed);
+            let main_output = day::part1(p);
+            let dt = start.elapsed();
             println!(
                 " |> Part 1 {}\t{}",
-                format_duration(start.elapsed()).bright_black(),
-                output,
+                format_duration(dt).bright_black(),
+                main_output,
             );
+
+            // run alternative solvers
+            let alternatives = day::part1_alternatives();
+            for (i, (name, solver)) in alternatives.iter().enumerate() {
+                let marker = if i == alternatives.len() - 1 {
+                    '└'
+                } else {
+                    '├'
+                };
+                let parsed = parsed.clone();
+                let start = Instant::now();
+                let output = solver(parsed);
+                let dt = start.elapsed();
+                let output_marker = if output == main_output {
+                    format!("{}", "✓".green())
+                } else {
+                    format!("{} {}", "✗".red(), output)
+                };
+                println!(
+                    "    {} {} {}\t{}",
+                    marker,
+                    name,
+                    format_duration(dt).bright_black(),
+                    output_marker,
+                );
+            }
         }
         if $part.is_none() || $part.unwrap() == 2 {
+            // run part 2 (main solver)
+            let p = parsed.clone();
             let start = Instant::now();
-            let output = day::part2(parsed);
+            let main_output = day::part2(p);
+            let dt = start.elapsed();
             println!(
                 " |> Part 2 {}\t{}",
-                format_duration(start.elapsed()).bright_black(),
-                output,
+                format_duration(dt).bright_black(),
+                main_output,
             );
+
+            // run alternative solvers
+            let alternatives = day::part2_alternatives();
+            for (i, (name, solver)) in alternatives.iter().enumerate() {
+                let marker = if i == alternatives.len() - 1 {
+                    '└'
+                } else {
+                    '├'
+                };
+                let parsed = parsed.clone();
+                let start = Instant::now();
+                let output = solver(parsed);
+                let dt = start.elapsed();
+                let output_marker = if output == main_output {
+                    format!("{}", "✓".green())
+                } else {
+                    format!("{} {}", "✗".red(), output)
+                };
+                println!(
+                    "    {} {} {}\t{}",
+                    marker,
+                    name,
+                    format_duration(dt).bright_black(),
+                    output_marker,
+                );
+            }
         }
     }};
 }
