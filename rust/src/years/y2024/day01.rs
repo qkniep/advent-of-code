@@ -1,7 +1,10 @@
-//! Historian Hysteria
-
 use aoc::core::*;
-use aoc::day_tests;
+
+use crate::day_tests;
+
+pub const NAME: &str = "Historian Hysteria";
+pub const YEAR: u16 = 2024;
+pub const DAY: u16 = 1;
 
 pub fn parse(input: &str) -> (Vec<i32>, Vec<i32>) {
     let mut list1 = Vec::new();
@@ -63,4 +66,4 @@ pub fn part2_streaming(lists: (Vec<i32>, Vec<i32>)) -> String {
     todo!()
 }
 
-day_tests!(2024, 1, "1882714", "19437052");
+day_tests!("1882714", "19437052");
