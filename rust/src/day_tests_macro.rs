@@ -46,7 +46,7 @@ macro_rules! day_tests {
                 let parsed = parse(&input);
                 for (name, solver) in super::part2_alternatives() {
                     let result = solver(parsed.clone()).to_string();
-                    assert_eq!(result, $expected1, "Part 2 ({}) failed for {}", name, DAY);
+                    assert_eq!(result, $expected2, "Part 2 ({}) failed for {}", name, DAY);
                 }
             }
         }
