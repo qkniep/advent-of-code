@@ -19,7 +19,17 @@ macro_rules! day_tests {
                 let input = load_input(YEAR, DAY);
                 let parsed = parse(&input);
                 let result = super::part1(parsed).to_string();
-                assert_eq!(result, $expected1, "Part1 failed for {}", DAY);
+                assert_eq!(result, $expected1, "Part 1 failed for {}", DAY);
+            }
+
+            #[test]
+            fn part1_alternatives() {
+                let input = load_input(YEAR, DAY);
+                let parsed = parse(&input);
+                for (name, solver) in super::part1_alternatives() {
+                    let result = solver(parsed.clone()).to_string();
+                    assert_eq!(result, $expected1, "Part 1 ({}) failed for {}", name, DAY);
+                }
             }
 
             #[test]
@@ -27,7 +37,17 @@ macro_rules! day_tests {
                 let input = load_input(YEAR, DAY);
                 let parsed = parse(&input);
                 let result = super::part2(parsed).to_string();
-                assert_eq!(result, $expected2, "Part2 failed for {}", DAY);
+                assert_eq!(result, $expected2, "Part 2 failed for {}", DAY);
+            }
+
+            #[test]
+            fn part2_alternatives() {
+                let input = load_input(YEAR, DAY);
+                let parsed = parse(&input);
+                for (name, solver) in super::part2_alternatives() {
+                    let result = solver(parsed.clone()).to_string();
+                    assert_eq!(result, $expected1, "Part 2 ({}) failed for {}", name, DAY);
+                }
             }
         }
     };
