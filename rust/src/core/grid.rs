@@ -1,7 +1,8 @@
 use arrayvec::ArrayVec;
 
 /// Represents a 2D grid of items.
-pub struct Grid<T> {
+#[derive(Clone, Debug)]
+pub struct Grid<T: Clone> {
     pub width: usize,
     pub height: usize,
     /// Cells stored in row-major order.
@@ -89,7 +90,7 @@ impl<T: Copy> Grid<T> {
     }
 
     /// ASCII visualization.
-    pub fn to_ascii<F>(&self, mut f: F) -> String
+    pub fn to_ascii_with<F>(&self, mut f: F) -> String
     where
         F: FnMut(&T) -> char,
     {
@@ -97,6 +98,41 @@ impl<T: Copy> Grid<T> {
         for y in 0..self.height {
             for x in 0..self.width {
                 s.push(f(&self.cells[y * self.width + x]));
+            }
+            s.push('\n');
+        }
+        s
+    }
+}
+
+impl<T: TryFrom<char> + Clone> TryFrom<&str> for Grid<T> {
+    type Error = ();
+
+    fn try_from(s: &str) -> Result<Self, Self::Error> {
+        let height = s.lines().count();
+        let width = s.lines().next().unwrap().len();
+        let mut cells = Vec::with_capacity(width * height);
+        for line in s.lines() {
+            assert_eq!(line.len(), width);
+            for c in line.chars() {
+                cells.push(T::try_from(c).map_err(|_| ())?);
+            }
+        }
+        Ok(Grid {
+            width,
+            height,
+            cells,
+        })
+    }
+}
+
+impl<T: Into<char> + Copy> Grid<T> {
+    /// ASCII visualization.
+    pub fn to_ascii(&self) -> String {
+        let mut s = String::with_capacity(self.width * self.height + self.height);
+        for y in 0..self.height {
+            for x in 0..self.width {
+                s.push(self.cells[y * self.width + x].into());
             }
             s.push('\n');
         }
