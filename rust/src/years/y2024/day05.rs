@@ -172,12 +172,35 @@ pub fn part1_alternatives() -> Vec<(&'static str, fn(Parsed) -> Output)> {
     vec![("btree", part1_btree), ("vec", part1_vec)]
 }
 
-pub fn part2(queue: Parsed) -> Output {
-    0
+pub fn part2(mut queue: Parsed) -> Output {
+    let mut sum = 0;
+    for update in &mut queue.page_updates {
+        if update.is_correctly_ordered_hash(&queue.ordering_rules_hash) {
+            continue;
+        }
+        loop {
+            let mut correct = true;
+            for rule in &queue.ordering_rules_vec {
+                let pos1 = update.0.iter().position(|p| *p == rule.0);
+                let pos2 = update.0.iter().position(|p| *p == rule.1);
+                if let (Some(pos1), Some(pos2)) = (pos1, pos2)
+                    && pos1 > pos2
+                {
+                    update.0.swap(pos1, pos2);
+                    correct = false;
+                }
+            }
+            if correct {
+                break;
+            }
+        }
+        sum += update.middle_page();
+    }
+    sum
 }
 
 pub fn part2_alternatives() -> Vec<(&'static str, fn(Parsed) -> Output)> {
     vec![]
 }
 
-day_tests!("7024", "0");
+day_tests!("7024", "4151");
