@@ -52,9 +52,9 @@ macro_rules! day_run {
             let alternatives = day::part1_alternatives();
             for (i, (name, solver)) in alternatives.iter().enumerate() {
                 let marker = if i == alternatives.len() - 1 {
-                    '└'
+                    "╰─"
                 } else {
-                    '├'
+                    "├─"
                 };
                 let parsed = parsed.clone();
                 let start = Instant::now();
@@ -90,9 +90,9 @@ macro_rules! day_run {
             let alternatives = day::part2_alternatives();
             for (i, (name, solver)) in alternatives.iter().enumerate() {
                 let marker = if i == alternatives.len() - 1 {
-                    '└'
+                    "╰─"
                 } else {
-                    '├'
+                    "├─"
                 };
                 let parsed = parsed.clone();
                 let start = Instant::now();
