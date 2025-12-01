@@ -6,27 +6,14 @@ pub const NAME: &str = "Mull It Over";
 pub const YEAR: u16 = 2024;
 pub const DAY: u16 = 3;
 
-enum State {
-    Empty,
-    M,
-    U,
-    L,
-    LParen,
-    A1,
-    A2,
-    A3,
-    Comma,
-    B1,
-    B2,
-    B3,
-    RParen,
-}
+pub type Parsed<'a> = &'a [u8];
+pub type Output = u32;
 
-pub fn parse(input: &str) -> &[u8] {
+pub fn parse<'a>(input: &'a str) -> Parsed<'a> {
     input.as_bytes()
 }
 
-pub fn part1(input: &[u8]) -> u32 {
+pub fn part1(input: Parsed) -> Output {
     let mut sum = 0;
     let mut i = 0;
 
@@ -70,11 +57,11 @@ pub fn part1(input: &[u8]) -> u32 {
     sum
 }
 
-pub fn part1_alternatives() -> Vec<(&'static str, fn(&[u8]) -> u32)> {
+pub fn part1_alternatives() -> Vec<(&'static str, fn(Parsed) -> Output)> {
     vec![]
 }
 
-pub fn part2(input: &[u8]) -> u32 {
+pub fn part2(input: Parsed) -> Output {
     let mut enabled = true;
     let mut sum = 0;
     let mut i = 0;
@@ -128,7 +115,7 @@ pub fn part2(input: &[u8]) -> u32 {
     sum
 }
 
-pub fn part2_alternatives() -> Vec<(&'static str, fn(&[u8]) -> u32)> {
+pub fn part2_alternatives() -> Vec<(&'static str, fn(Parsed) -> Output)> {
     vec![]
 }
 

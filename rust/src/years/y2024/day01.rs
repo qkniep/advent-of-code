@@ -6,7 +6,8 @@ pub const NAME: &str = "Historian Hysteria";
 pub const YEAR: u16 = 2024;
 pub const DAY: u16 = 1;
 
-type Parsed = (Vec<i32>, Vec<i32>);
+pub type Parsed = (Vec<i32>, Vec<i32>);
+pub type Output = u32;
 
 pub fn parse(input: &str) -> Parsed {
     let mut list1 = Vec::new();
@@ -22,32 +23,32 @@ pub fn parse(input: &str) -> Parsed {
     (list1, list2)
 }
 
-pub fn part1(lists: Parsed) -> String {
+pub fn part1(lists: Parsed) -> Output {
     let (mut list1, mut list2) = lists;
     let mut sum = 0;
     assert_eq!(list1.len(), list2.len());
     list1.sort_unstable();
     list2.sort_unstable();
     for i in 0..list1.len() {
-        sum += (list1[i] - list2[i]).abs();
+        sum += (list1[i] - list2[i]).unsigned_abs();
     }
-    sum.to_string()
+    sum
 }
 
-pub fn part1_alternatives() -> Vec<(&'static str, fn(Parsed) -> String)> {
+pub fn part1_alternatives() -> Vec<(&'static str, fn(Parsed) -> Output)> {
     vec![]
 }
 
-pub fn part2(lists: Parsed) -> String {
+pub fn part2(lists: Parsed) -> Output {
     let mut similarity = 0;
     for num in lists.0 {
         let appearances = lists.1.iter().filter(|n| **n == num).count();
-        similarity += num as usize * appearances;
+        similarity += num as u32 * appearances as u32;
     }
-    similarity.to_string()
+    similarity
 }
 
-pub fn part2_alternatives() -> Vec<(&'static str, fn(Parsed) -> String)> {
+pub fn part2_alternatives() -> Vec<(&'static str, fn(Parsed) -> Output)> {
     vec![]
 }
 

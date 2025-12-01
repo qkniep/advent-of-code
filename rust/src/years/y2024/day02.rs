@@ -6,8 +6,8 @@ pub const NAME: &str = "Red-Nosed Reports";
 pub const YEAR: u16 = 2024;
 pub const DAY: u16 = 2;
 
-type Parsed = Vec<Report>;
-type Report = Vec<i32>;
+pub type Parsed = Vec<Report>;
+pub type Report = Vec<i32>;
 
 pub fn parse(input: &str) -> Parsed {
     let mut reports = Vec::with_capacity(input.lines().count());

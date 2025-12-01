@@ -10,8 +10,8 @@ pub const NAME: &str = "Print Queue";
 pub const YEAR: u16 = 2024;
 pub const DAY: u16 = 5;
 
-type Parsed = PrintQueue;
-type Output = u32;
+pub type Parsed = PrintQueue;
+pub type Output = u32;
 
 #[derive(Clone, Debug)]
 pub struct PrintQueue {

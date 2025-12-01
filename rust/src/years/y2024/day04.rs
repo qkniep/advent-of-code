@@ -6,8 +6,8 @@ pub const NAME: &str = "Ceres Search";
 pub const YEAR: u16 = 2024;
 pub const DAY: u16 = 4;
 
-type Parsed = grid::Grid<Letter>;
-type Output = u32;
+pub type Parsed = grid::Grid<Letter>;
+pub type Output = u32;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Letter {
