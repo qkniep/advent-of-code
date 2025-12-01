@@ -55,6 +55,11 @@ fn main() {
             d if d > 0 && d <= days_per_year(2024) => todo!(),
             d => panic!("invalid day {}", d),
         },
+        2025 => match day {
+            1 => day_run!(y2025::day01, part),
+            d if d > 0 && d <= days_per_year(2025) => todo!(),
+            d => panic!("invalid day {}", d),
+        },
         FIRST_YEAR..=LAST_YEAR => todo!(),
         y => panic!("invalid year {}", y),
     }
