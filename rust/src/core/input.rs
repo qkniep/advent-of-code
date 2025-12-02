@@ -38,7 +38,7 @@ where
     <T as FromStr>::Err: Debug,
 {
     s.split(sep)
-        .map(|x| x.parse::<T>().expect("failed to parse number"))
+        .map(|x| x.trim().parse::<T>().expect("failed to parse number"))
         .collect()
 }
 
