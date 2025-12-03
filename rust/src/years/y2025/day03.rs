@@ -93,7 +93,7 @@ pub fn part1_streaming(banks: impl Iterator<Item = Bank>) -> Output {
     total_joltage
 }
 
-pub fn part1_single_pass(banks: Parsed) -> Output {
+pub fn part1_custom_max(banks: Parsed) -> Output {
     let mut total_joltage = 0;
     for bank in banks {
         total_joltage += bank.max_joltage_custom_max(2);
@@ -102,7 +102,7 @@ pub fn part1_single_pass(banks: Parsed) -> Output {
 }
 
 pub fn part1_alternatives() -> Vec<(&'static str, fn(Parsed) -> Output)> {
-    vec![("custom max", part1_single_pass)]
+    vec![("custom max", part1_custom_max)]
 }
 
 pub fn part2(banks: Parsed) -> Output {
@@ -117,7 +117,7 @@ pub fn part2_streaming(banks: impl Iterator<Item = Bank>) -> Output {
     total_joltage
 }
 
-pub fn part2_single_pass(banks: Parsed) -> Output {
+pub fn part2_custom_max(banks: Parsed) -> Output {
     let mut total_joltage = 0;
     for bank in banks {
         total_joltage += bank.max_joltage_custom_max(12);
@@ -126,7 +126,7 @@ pub fn part2_single_pass(banks: Parsed) -> Output {
 }
 
 pub fn part2_alternatives() -> Vec<(&'static str, fn(Parsed) -> Output)> {
-    vec![("custom max", part2_single_pass)]
+    vec![("custom max", part2_custom_max)]
 }
 
 day_tests!("16842", "167523425665348");
