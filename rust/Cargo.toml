@@ -29,3 +29,7 @@ lto = true
 [profile.bench]
 codegen-units = 1
 lto = true
+
+[[bench]]
+name = "bench"
+harness = false
