@@ -17,17 +17,15 @@ impl Bank {
     ///
     /// That is, it finds the largest `num_batteries`-digit number appearing in `self`.
     pub fn max_joltage(&self, num_batteries: usize) -> u64 {
-        let mut batteries_to_take = num_batteries;
         let mut offset = 0;
         let mut joltage = 0;
-        while batteries_to_take > 0 {
-            let (i, &max_digit) = self.0[offset..self.0.len() - (batteries_to_take - 1)]
+        for batteries_to_take in (0..num_batteries).rev() {
+            let (i, &max_digit) = self.0[offset..self.0.len() - batteries_to_take]
                 .iter()
                 .enumerate()
                 .rev()
                 .max_by_key(|(_, d)| *d)
                 .unwrap();
-            batteries_to_take -= 1;
             offset += i + 1;
             joltage = joltage * 10 + max_digit as u64;
         }
@@ -38,20 +36,21 @@ impl Bank {
     ///
     /// That is, it finds the largest `num_batteries`-digit number appearing in `self`.
     pub fn max_joltage_custom_max(&self, num_batteries: usize) -> u64 {
-        let mut batteries_to_take = num_batteries;
         let mut offset = 0;
         let mut joltage = 0;
-        while batteries_to_take > 0 {
+        for batteries_to_take in (0..num_batteries).rev() {
             let (i, max_digit) =
-                Bank::idx_max_early_abort(&self.0[offset..self.0.len() - (batteries_to_take - 1)]);
-            batteries_to_take -= 1;
+                Bank::idx_max_early_abort(&self.0[offset..self.0.len() - batteries_to_take]);
             offset += i + 1;
             joltage = joltage * 10 + max_digit as u64;
         }
         joltage
     }
 
-    /// Calculates the maximum joltage of the bank when turning on `B` batteries.
+    /// Finds the index and value of the largest digit in `digits`.
+    ///
+    /// If the maximum digit occurs more than once, returns the earliest index.
+    /// Uses the fact that `9` is the largest possible value in `digits` to early abort.
     pub fn idx_max_early_abort(digits: &[u8]) -> (usize, u8) {
         let mut max = (usize::MAX, 0);
         for (i, &d) in digits.iter().enumerate() {
