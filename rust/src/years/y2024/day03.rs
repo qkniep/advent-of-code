@@ -1,5 +1,3 @@
-use aoc::core::*;
-
 use crate::day_tests;
 
 pub const NAME: &str = "Mull It Over";

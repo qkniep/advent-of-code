@@ -1,9 +1,9 @@
 use std::collections::{BTreeMap, BTreeSet};
 use std::str::FromStr;
 
-use aoc::core::*;
 use rustc_hash::{FxHashMap, FxHashSet};
 
+use crate::core::*;
 use crate::day_tests;
 
 pub const NAME: &str = "Print Queue";

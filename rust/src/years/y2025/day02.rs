@@ -1,8 +1,8 @@
 use std::str::FromStr;
 
-use aoc::core::*;
 use thiserror::Error;
 
+use crate::core::*;
 use crate::day_tests;
 
 pub const NAME: &str = "Gift Shop";

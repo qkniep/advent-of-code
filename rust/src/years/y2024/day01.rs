@@ -1,5 +1,4 @@
-use aoc::core::*;
-
+use crate::core::*;
 use crate::day_tests;
 
 pub const NAME: &str = "Historian Hysteria";

@@ -1,15 +1,8 @@
-mod day_run_macro;
-mod day_tests_macro;
-mod years;
-
 use aoc::core::*;
+use aoc::years::*;
+use aoc::{FIRST_YEAR, LAST_YEAR, day_run};
 use clap::Parser;
 use colored::Colorize;
-
-use self::years::*;
-
-const FIRST_YEAR: u16 = 2015;
-const LAST_YEAR: u16 = 2025;
 
 #[derive(Parser)]
 #[clap(author, version, about)]

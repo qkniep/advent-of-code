@@ -10,7 +10,7 @@ macro_rules! day_tests {
     ($expected1:expr, $expected2:expr) => {
         #[cfg(test)]
         mod tests {
-            use aoc::core::input::load_input;
+            use $crate::core::input::load_input;
 
             use super::*;
 
