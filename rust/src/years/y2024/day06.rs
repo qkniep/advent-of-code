@@ -119,6 +119,7 @@ pub fn part1_alternatives() -> Vec<(&'static str, fn(Parsed) -> Output)> {
     vec![]
 }
 
+// PERF: this solution is still far from optimal
 pub fn part2(mut map: Parsed) -> Output {
     let mut possible_positions = 0;
     let mut visited = FxHashSet::default();
