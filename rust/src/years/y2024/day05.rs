@@ -180,14 +180,16 @@ pub fn part2(mut queue: Parsed) -> Output {
         }
         loop {
             let mut correct = true;
-            for rule in &queue.ordering_rules_vec {
-                let pos1 = update.0.iter().position(|p| *p == rule.0);
-                let pos2 = update.0.iter().position(|p| *p == rule.1);
-                if let (Some(pos1), Some(pos2)) = (pos1, pos2)
-                    && pos1 > pos2
-                {
-                    update.0.swap(pos1, pos2);
-                    correct = false;
+            for pos1 in 0..update.0.len() - 1 {
+                let num1 = update.0[pos1];
+                let Some(forbidden) = queue.ordering_rules_hash.get(&num1) else {
+                    continue;
+                };
+                for num2 in forbidden {
+                    if let Some(pos2) = update.0[pos1 + 1..].iter().position(|p| *p == *num2) {
+                        update.0.swap(pos1, pos1 + 1 + pos2);
+                        correct = false;
+                    }
                 }
             }
             if correct {
@@ -199,8 +201,73 @@ pub fn part2(mut queue: Parsed) -> Output {
     sum
 }
 
+pub fn part2_integrated(mut queue: Parsed) -> Output {
+    let mut sum = 0;
+    for update in &mut queue.page_updates {
+        let mut swaps = 0;
+        loop {
+            let mut correct = true;
+            for pos1 in 0..update.0.len() - 1 {
+                let num1 = update.0[pos1];
+                let Some(forbidden) = queue.ordering_rules_hash.get(&num1) else {
+                    continue;
+                };
+                for num2 in forbidden {
+                    if let Some(pos2) = update.0[pos1 + 1..].iter().position(|p| *p == *num2) {
+                        update.0.swap(pos1, pos1 + 1 + pos2);
+                        swaps += 1;
+                        correct = false;
+                    }
+                }
+            }
+            if correct {
+                break;
+            }
+        }
+        if swaps > 0 {
+            sum += update.middle_page();
+        }
+    }
+    sum
+}
+
+pub fn part2_streamlined(mut queue: Parsed) -> Output {
+    let mut forbidden: Vec<(usize, &FxHashSet<u32>)> = Vec::with_capacity(32);
+    let mut sum = 0;
+    for update in &mut queue.page_updates {
+        let mut swaps = 0;
+        loop {
+            let mut correct = true;
+            forbidden.clear();
+            for p_i in 0..update.0.len() {
+                let page = update.0[p_i];
+                for (f_i, f) in &forbidden {
+                    if f.contains(&page) {
+                        update.0.swap(p_i, *f_i);
+                        swaps += 1;
+                        correct = false;
+                    }
+                }
+                if let Some(forbidden_pages) = queue.ordering_rules_hash.get(&page) {
+                    forbidden.push((p_i, forbidden_pages));
+                }
+            }
+            if correct {
+                break;
+            }
+        }
+        if swaps > 0 {
+            sum += update.middle_page();
+        }
+    }
+    sum
+}
+
 pub fn part2_alternatives() -> Vec<(&'static str, fn(Parsed) -> Output)> {
-    vec![]
+    vec![
+        ("integrated", part2_integrated),
+        ("streamliend", part2_streamlined),
+    ]
 }
 
 day_tests!("7024", "4151");
