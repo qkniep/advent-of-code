@@ -7,6 +7,6 @@ Solutions will only be posted 24 hours after each challenge started.
 
 First year I am actually doing AoC in Rust as we go.
 
-## 2024 (10/50⭐)
+## 2024 (12/50⭐)
 
 Trying out the challenge format I want to apply to the 2025 challenges.

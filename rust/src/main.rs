@@ -45,6 +45,7 @@ fn main() {
             3 => day_run!(y2024::day03, part),
             4 => day_run!(y2024::day04, part),
             5 => day_run!(y2024::day05, part),
+            6 => day_run!(y2024::day06, part),
             d if d > 0 && d <= days_per_year(2024) => todo!(),
             d => panic!("invalid day {}", d),
         },
