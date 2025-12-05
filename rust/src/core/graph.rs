@@ -1,3 +1,7 @@
+//!
+//!
+//!
+
 use std::collections::VecDeque;
 
 /// Generic adjacency list graph
@@ -6,22 +10,25 @@ pub struct Graph {
 }
 
 impl Graph {
+    /// Creates a new graph with `n` nodes and no edges.
     pub fn new(n: usize) -> Self {
         Graph {
             edges: vec![Vec::new(); n],
         }
     }
 
+    /// Adds an edge from `u` to `v`.
     pub fn add_edge(&mut self, u: usize, v: usize) {
         self.edges[u].push(v);
     }
 
+    /// Adds an undirected edge between `u` and `v`.
     pub fn add_undirected_edge(&mut self, u: usize, v: usize) {
         self.edges[u].push(v);
         self.edges[v].push(u);
     }
 
-    /// BFS returning distances from start node
+    /// BFS returning distances from start node.
     pub fn bfs(&self, start: usize) -> Vec<Option<usize>> {
         let mut dist = vec![None; self.edges.len()];
         let mut queue = VecDeque::new();
@@ -41,7 +48,7 @@ impl Graph {
         dist
     }
 
-    /// DFS traversal (recursive)
+    /// DFS traversal (recursive).
     pub fn dfs<F>(&self, start: usize, mut visit: F)
     where
         F: FnMut(usize),
@@ -61,4 +68,12 @@ impl Graph {
         }
         dfs_inner(self, start, &mut visited, &mut visit);
     }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn basic() {}
 }

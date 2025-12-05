@@ -1,7 +1,9 @@
 use std::time::Duration;
 
+pub mod binary_grid;
 pub mod graph;
 pub mod grid;
+pub mod grid2;
 pub mod input;
 
 pub fn format_duration(dt: Duration) -> String {

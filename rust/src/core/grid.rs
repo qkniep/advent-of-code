@@ -1,9 +1,88 @@
+//!
+//!
+//!
+
 use arrayvec::ArrayVec;
+
+pub trait G {
+    fn neighbors4(&self, x: usize, y: usize) -> ArrayVec<(usize, usize), 4>;
+    fn neighbors8(&self, x: usize, y: usize) -> ArrayVec<(usize, usize), 8>;
+}
+
+/// Cardinal directions.
+pub enum Direction {
+    N,
+    S,
+    W,
+    E,
+}
+
+impl Direction {
+    /// Returns the opposite direction.
+    pub fn opposite(&self) -> Direction {
+        match self {
+            Direction::N => Direction::S,
+            Direction::S => Direction::N,
+            Direction::W => Direction::E,
+            Direction::E => Direction::W,
+        }
+    }
+
+    /// Turn 90 degrees clockwise.
+    pub fn turn_right(&self) -> Direction {
+        match self {
+            Direction::N => Direction::E,
+            Direction::S => Direction::W,
+            Direction::W => Direction::N,
+            Direction::E => Direction::S,
+        }
+    }
+
+    /// Turn 90 degrees counter-clockwise.
+    pub fn turn_left(&self) -> Direction {
+        match self {
+            Direction::N => Direction::W,
+            Direction::S => Direction::E,
+            Direction::W => Direction::S,
+            Direction::E => Direction::N,
+        }
+    }
+}
+
+/// Cardinal and diagonal directions.
+pub enum Direction8 {
+    N,
+    S,
+    W,
+    E,
+    NW,
+    NE,
+    SW,
+    SE,
+}
+
+impl Direction8 {
+    /// Returns the opposite direction.
+    pub fn opposite(&self) -> Direction8 {
+        match self {
+            Direction8::N => Direction8::S,
+            Direction8::S => Direction8::N,
+            Direction8::W => Direction8::E,
+            Direction8::E => Direction8::W,
+            Direction8::NW => Direction8::SE,
+            Direction8::NE => Direction8::SW,
+            Direction8::SW => Direction8::NE,
+            Direction8::SE => Direction8::NW,
+        }
+    }
+}
 
 /// Represents a 2D grid of items.
 #[derive(Clone, Debug)]
 pub struct Grid<T: Clone> {
+    /// Width of the grid.
     pub width: usize,
+    /// Height of the grid.
     pub height: usize,
     /// Cells stored in row-major order.
     pub cells: Vec<T>,
@@ -138,4 +217,12 @@ impl<T: Into<char> + Copy> Grid<T> {
         }
         s
     }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn basic() {}
 }

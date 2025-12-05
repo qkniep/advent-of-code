@@ -1,3 +1,7 @@
+//!
+//!
+//!
+
 use std::fmt::Debug;
 use std::str::FromStr;
 
@@ -50,4 +54,12 @@ where
     s.split(|c| seps.contains(&c))
         .map(|x| x.parse::<T>().expect("failed to parse number"))
         .collect()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn basic() {}
 }
