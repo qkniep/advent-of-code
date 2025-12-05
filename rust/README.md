@@ -3,7 +3,7 @@
 A collection of all my solutions to the challenges of [Advent of Code](https://adventofcode.com) in Rust.
 Solutions will only be posted 24 hours after each challenge started.
 
-## 2025 (6/24⭐)
+## 2025 (8/24⭐)
 
 First year I am actually doing AoC in Rust as we go.
 
