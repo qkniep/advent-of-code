@@ -4,9 +4,20 @@
 
 use arrayvec::ArrayVec;
 
-pub trait G {
-    fn neighbors4(&self, x: usize, y: usize) -> ArrayVec<(usize, usize), 4>;
-    fn neighbors8(&self, x: usize, y: usize) -> ArrayVec<(usize, usize), 8>;
+/// Generic grid interface.
+pub trait G<T> {
+    fn from_vec(vec: Vec<Vec<T>>) -> Self;
+    fn width(&self) -> usize;
+    fn height(&self) -> usize;
+    fn get(&self, x: usize, y: usize) -> Option<T>;
+    fn get_mut(&mut self, x: usize, y: usize) -> Option<&mut T>;
+    fn iter<'a>(&'a self) -> impl Iterator<Item = ((usize, usize), &'a T)>
+    where
+        T: 'a;
+    fn neighbors4(&self, x: usize, y: usize) -> impl Iterator<Item = (usize, usize)>;
+    fn neighbors4_wrap(&self, x: usize, y: usize) -> impl Iterator<Item = (usize, usize)>;
+    fn neighbors8(&self, x: usize, y: usize) -> impl Iterator<Item = (usize, usize)>;
+    fn neighbors8_wrap(&self, x: usize, y: usize) -> impl Iterator<Item = (usize, usize)>;
 }
 
 /// Cardinal directions.

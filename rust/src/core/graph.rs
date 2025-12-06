@@ -1,4 +1,4 @@
-//!
+//! Simple adjacency list graph implementation.
 //!
 //!
 

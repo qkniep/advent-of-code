@@ -137,7 +137,6 @@ impl BinaryGrid {
             (x, (y + 1) % h),
         ]
         .into_iter()
-        .map(|(nx, ny)| (nx, ny))
     }
 
     /// Iterates over 8-way neighbors.
@@ -178,7 +177,6 @@ impl BinaryGrid {
             (x.saturating_sub(1), (y + 1) % h),
         ]
         .into_iter()
-        .map(|(nx, ny)| (nx, ny))
     }
 
     /// Counts the number of cells that are `true`.

@@ -1,5 +1,6 @@
-//! Optimized 2D Grid with support for 4-way and 8-way neighbors
-//! and optional space-filling curve layouts (Morton / Hilbert).
+//! Optimized generic 2D grid implementation.
+//!
+//! Support 4-way and 8-way neighbors and differnt space-filling curve layouts.
 //!
 //! - `Grid<T>`: generic storage over `Vec<T>`
 //! - Layouts: RowMajor (standard), Morton (Z-order) for cache-friendly locality
@@ -8,7 +9,8 @@
 
 use std::ops::{Index, IndexMut};
 
-///
+/// Grid layout, i.e. how to map coordinates to indices and vice versa.
+#[allow(clippy::len_without_is_empty)]
 pub trait Layout {
     fn new(width: usize, height: usize) -> Self;
 
@@ -18,7 +20,7 @@ pub trait Layout {
 
     fn index_to_coord(&self, idx: usize) -> (usize, usize);
 
-    fn iter_coords<'a>(&'a self) -> impl Iterator<Item = (usize, usize)> {
+    fn iter_coords(&self) -> impl Iterator<Item = (usize, usize)> {
         (0..self.len()).map(move |idx| self.index_to_coord(idx))
     }
 }
@@ -43,7 +45,7 @@ impl Layout for RowMajor {
         (idx % self.0, idx / self.0)
     }
 
-    fn iter_coords<'a>(&'a self) -> impl Iterator<Item = (usize, usize)> {
+    fn iter_coords(&self) -> impl Iterator<Item = (usize, usize)> {
         (0..self.1).zip(0..self.0)
     }
 }
@@ -108,7 +110,7 @@ pub struct VecGrid<T, L: Layout = Hilbert> {
 }
 
 impl<T, L: Layout> VecGrid<T, L> {
-    ///
+    /// Creates a new grid of size `width` x `height`, filled with `value`.
     pub fn new(width: usize, height: usize, value: T) -> Self
     where
         T: Clone,
@@ -124,7 +126,7 @@ impl<T, L: Layout> VecGrid<T, L> {
         }
     }
 
-    ///
+    /// Creates a new grid of size `width` x `height`, filled with [`Default::default()`].
     pub fn new_default(width: usize, height: usize) -> Self
     where
         T: Clone + Default,
@@ -152,12 +154,6 @@ impl<T, L: Layout> VecGrid<T, L> {
         self.height
     }
 
-    /// Returns the number of cells in the grid.
-    #[inline(always)]
-    pub fn len(&self) -> usize {
-        self.width * self.height
-    }
-
     /// Returns the value at `(x, y)`, or `None` if out of bounds.
     pub fn get(&self, x: usize, y: usize) -> Option<&T> {
         if x >= self.width || y >= self.height {
@@ -167,7 +163,7 @@ impl<T, L: Layout> VecGrid<T, L> {
     }
 
     /// Returns a mutable reference to the value at `(x, y)`, or `None` if out of bounds.
-    pub fn get_mut<'a>(&'a mut self, x: usize, y: usize) -> Option<&'a mut T> {
+    pub fn get_mut(&mut self, x: usize, y: usize) -> Option<&mut T> {
         if x >= self.width || y >= self.height {
             return None;
         }
@@ -205,7 +201,6 @@ impl<T, L: Layout> VecGrid<T, L> {
             (x, (y + 1) % h),
         ]
         .into_iter()
-        .map(|(nx, ny)| (nx, ny))
     }
 
     /// Iterates over 8-way neighbors.
@@ -246,11 +241,10 @@ impl<T, L: Layout> VecGrid<T, L> {
             (x.saturating_sub(1), (y + 1) % h),
         ]
         .into_iter()
-        .map(|(nx, ny)| (nx, ny))
     }
 
     /// Iterates over all cells as `(x, y, &value)`.
-    pub fn iter<'a>(&'a self) -> impl Iterator<Item = (usize, usize, &'a T)> {
+    pub fn iter(&self) -> impl Iterator<Item = (usize, usize, &T)> {
         self.layout
             .iter_coords()
             .map(move |(x, y)| (x, y, &self.data[self.layout.coord_to_index(x, y)]))
