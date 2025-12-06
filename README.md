@@ -7,13 +7,13 @@ Solutions will only be posted 24 hours after each challenge started.
 
 [Here](./go) are the solutions in Go.
 
+## Rust (22/574⭐)
+
+[Here](./rust) are the solutions in Rust.
+
 ## OCaml (18/574⭐)
 
 [Here](./ocaml) are the solutions in OCaml.
-
-## Rust (20/574⭐)
-
-[Here](./rust) are the solutions in Rust.
 
 ## Zig (0/574⭐)
 
