@@ -9,9 +9,11 @@ pub const NAME: &str = "Trash Compactor";
 pub const YEAR: u16 = 2025;
 pub const DAY: u16 = 6;
 
+/// Lines of the input file, since both parts need to parse it differently.
 pub type Parsed = Vec<String>;
 pub type Output = u64;
 
+/// Either an addition or multiplication of some numbers.
 #[derive(Clone, Debug)]
 pub enum Problem {
     Add(SmallVec<[u32; 8]>),
@@ -67,6 +69,7 @@ pub fn parse(input: &str) -> Parsed {
     input.lines().map(|x| x.to_string()).collect()
 }
 
+/// Parses the problems from left to right, with each number appearing in a row.
 pub fn parse_part1(lines: impl IntoIterator<Item = String>) -> Vec<Problem> {
     // parse lines
     let mut numbers = Vec::new();
@@ -85,6 +88,7 @@ pub fn parse_part1(lines: impl IntoIterator<Item = String>) -> Vec<Problem> {
     Problem::from_lists(numbers, problem_types)
 }
 
+/// Parses the problems from right to left, with each number appearing in a column.
 pub fn parse_part2(lines: Vec<String>) -> Vec<Problem> {
     for line in &lines {
         assert!(line.len() == lines[0].len());
@@ -119,7 +123,6 @@ pub fn parse_part2(lines: Vec<String>) -> Vec<Problem> {
     problems
 }
 
-/// Counts how many of the available ingredients are fresh.
 pub fn part1(lines: Parsed) -> Output {
     let problems = parse_part1(lines);
     let mut total = 0;
@@ -133,7 +136,6 @@ pub fn part1_alternatives() -> Vec<(&'static str, fn(Parsed) -> Output)> {
     vec![]
 }
 
-/// Counts how many fresh ingredients exist overall.
 pub fn part2(lines: Parsed) -> Output {
     let problems = parse_part2(lines);
     let mut total = 0;
@@ -147,4 +149,4 @@ pub fn part2_alternatives() -> Vec<(&'static str, fn(Parsed) -> Output)> {
     vec![]
 }
 
-day_tests!("513", "339668510830757");
+day_tests!("7098065460541", "13807151830618");
