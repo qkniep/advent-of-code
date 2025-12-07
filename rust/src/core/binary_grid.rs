@@ -17,8 +17,7 @@ impl BinaryGrid {
     /// Creates a new grid with all cells set to `value` (true/false).
     pub fn new(width: usize, height: usize, value: bool) -> Self {
         let len = width.checked_mul(height).expect("overflow");
-        let mut bits = BitVec::with_capacity(len);
-        bits.fill(value);
+        let bits = BitVec::repeat(value, len);
         Self {
             width,
             height,
@@ -200,14 +199,27 @@ mod tests {
         g.set(1, 1, true);
         g.set(2, 3, true);
         assert!(g.get(1, 1));
+        assert!(g.get(2, 3));
         assert!(!g.get(0, 0));
-        let ones: Vec<_> = g.iter().filter(|(_, _, v)| *v).collect();
-        assert_eq!(ones.len(), 2);
-        let n4: Vec<_> = g
+        assert!(!g.get(3, 3));
+        assert_eq!(g.count_ones(), 2);
+    }
+
+    #[test]
+    fn neighbors() {
+        let mut g = BinaryGrid::new(4, 4, false);
+        g.set(1, 1, true);
+        g.set(2, 3, true);
+        let n4: usize = g
             .neighbors4(1, 1)
             .filter(|(nx, ny)| g.get(*nx, *ny))
-            .collect();
-        assert_eq!(n4.len(), 0);
+            .count();
+        assert_eq!(n4, 0);
+        let n8: usize = g
+            .neighbors8(0, 0)
+            .filter(|(nx, ny)| g.get(*nx, *ny))
+            .count();
+        assert_eq!(n8, 1);
     }
 
     #[test]
