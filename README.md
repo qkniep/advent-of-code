@@ -7,7 +7,7 @@ Solutions will only be posted 24 hours after each challenge started.
 
 [Here](./go) are the solutions in Go.
 
-## Rust (22/574⭐)
+## Rust (26/574⭐)
 
 [Here](./rust) are the solutions in Rust.
 
