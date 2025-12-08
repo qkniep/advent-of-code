@@ -80,6 +80,56 @@ mod y2025 {
     }
 
     #[divan::bench_group]
+    mod day05 {
+        use super::*;
+
+        #[divan::bench]
+        fn part1(bencher: divan::Bencher) {
+            let input = input::load_input(2025, 5);
+            let parsed = years::y2025::day05::parse(&input);
+
+            bencher.with_inputs(|| parsed.clone()).bench_values(|p| {
+                let _ = years::y2025::day05::part1_merge(p);
+            });
+        }
+
+        #[divan::bench]
+        fn part2(bencher: divan::Bencher) {
+            let input = input::load_input(2025, 5);
+            let parsed = years::y2025::day05::parse(&input);
+
+            bencher.with_inputs(|| parsed.clone()).bench_values(|p| {
+                let _ = years::y2025::day05::part2(p);
+            });
+        }
+    }
+
+    #[divan::bench_group]
+    mod day06 {
+        use super::*;
+
+        #[divan::bench]
+        fn part1(bencher: divan::Bencher) {
+            let input = input::load_input(2025, 6);
+            let parsed = years::y2025::day06::parse(&input);
+
+            bencher.with_inputs(|| parsed.clone()).bench_values(|p| {
+                let _ = years::y2025::day06::part1(p);
+            });
+        }
+
+        #[divan::bench]
+        fn part2(bencher: divan::Bencher) {
+            let input = input::load_input(2025, 6);
+            let parsed = years::y2025::day06::parse(&input);
+
+            bencher.with_inputs(|| parsed.clone()).bench_values(|p| {
+                let _ = years::y2025::day06::part2(p);
+            });
+        }
+    }
+
+    #[divan::bench_group]
     mod day07 {
         use super::*;
 
